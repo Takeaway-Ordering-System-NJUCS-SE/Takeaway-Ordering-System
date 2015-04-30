@@ -57,7 +57,6 @@ def newcustomer(owner):
 	p.save()
 	return p
 
-
 def imageresize(path):
 	im = Image.open(path)
 
@@ -80,6 +79,13 @@ def imageresize(path):
 	im = im.crop(box)
 	im.save(path)
 
+	
+def scores_update(user, total):
+	Customer.objects.filter(owner=user).update(score=total)
+	if total > normal_score:
+		Customer.objects.filter(owner=user).update(level=1)
+	elif total > vip_score:
+		Customer.objects.filter(owner=user).update(level=2)
 
 def update_book(order):
 #	for item in order.orderitem_set.all():
@@ -96,35 +102,8 @@ def calc_order(order):
 		total += item.menu.cost * item.amount
 	return total
 
-def scores_update(user, total):
-	Customer.objects.filter(owner=user).update(score=total)
-	if total > normal_score:
-		Customer.objects.filter(owner=user).update(level=1)
-	elif total > vip_score:
-		Customer.objects.filter(owner=user).update(level=2)
-
-
+		
 ####################################views functions
-
-def index(request):
-	specs = FoodSpec.objects.all()
-	orders = []
-	for spec in specs:
-		order = spec.menu_set.all()[:10]
-		orders.append((spec, order))
-
-	return render(request,'index3.html', {'orders': orders});
-
-def index2(request):
-	order = Menu.objects.all()
-
-	order1 = order[:4]
-	order2 = order[4:8]
-	order3 = order[8:12]
-
-	
-	return render(request,'index_cand.html', {'order1':order1, 'order2':order2, 'order3':order3});
-
 
 def errors_report(request, inval):
 	print len(invalidation)
@@ -179,6 +158,26 @@ def local_bank(request):
 
 	form = AccountForm()
 	return render(request, 'local_bank.html', {'form':form, 'money':account.money})
+
+
+def index(request):
+	specs = FoodSpec.objects.all()
+	orders = []
+	for spec in specs:
+		order = spec.menu_set.all()[:10]
+		orders.append((spec, order))
+
+	return render(request,'index3.html', {'orders': orders});
+
+def index2(request):
+	order = Menu.objects.all()
+
+	order1 = order[:4]
+	order2 = order[4:8]
+	order3 = order[8:12]
+
+	
+	return render(request,'index_cand.html', {'order1':order1, 'order2':order2, 'order3':order3});
 
 @login_required
 def order_history(request, page='1'):
