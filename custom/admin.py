@@ -15,10 +15,6 @@ class orderadmin(admin.ModelAdmin):
 class Msgadmin(admin.ModelAdmin):
 	list_display = ('sender', 'receiver', 'title')
 	
-admin.site.register(Customer, Custadmin)
-admin.site.register(Address)
-admin.site.register(Delivery)
-
 admin.site.register(Menu, Menuadmin)
 admin.site.register(Order)
 admin.site.register(OrderItem,orderadmin)
@@ -26,3 +22,7 @@ admin.site.register(Message,Msgadmin)
 admin.site.register(Account)
 admin.site.register(FoodSpec)
 admin.site.register(Taste)
+	
+admin.site.register(Customer, Custadmin)
+admin.site.register(Address)
+admin.site.register(Delivery)
