@@ -1,0 +1,45 @@
+div#navigator{
+	margin-top: 15px;
+}
+span.nav{
+	display: inline-block;
+	padding: 0 5px 0 5px;
+	margin: 0;
+	font-size: 24px;
+	float: left;
+	font-family: new times roman;
+	border: 1px solid #a7a711;
+	cursor: pointer;
+}
+
+span.inv{
+
+	background: #e8ea11;
+	color: #888888;
+	
+	/*
+	background:url(../image/bg_nav_0816.jpg);
+	background-position:right -272px;
+	color:#930;
+	*/
+}
+span.vis{
+	/*background: #aaaaFF;
+	*/
+	background: #7CA0C7 ;
+	/*
+	background:url(../image/bg_nav_0816.jpg) #CC0C0C repeat-x 0 -115px;
+	color: white;
+	font-weight:bold;
+	*/
+}
+
+div.inv{
+	display: none;
+}
+div.order{
+	border: 2px solid #DADAFF;
+	border-radius: 6px;
+	padding-bottom: 22px;
+
+}
