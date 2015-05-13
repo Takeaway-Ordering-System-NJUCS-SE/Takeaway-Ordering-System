@@ -43,7 +43,18 @@ class Menu(models.Model):
     def __unicode__(self):
            return self.name
 
-    
+class Order(models.Model):
+    time = models.DateTimeField(auto_now = True)
+    user = models.ForeignKey(User)
+    addr = models.CharField(max_length=255, blank=True)
+    tel = models.CharField(max_length=20, blank=True)
+    extra_info = models.CharField(max_length=255, null = True, blank = True)
+    delivery = models.ForeignKey(Delivery, null=True)
+    state = models.IntegerField()
+    menu = models.ManyToManyField(Menu, through='OrderItem')
+    def __unicode__(self):
+        return 'Order' + unicode(self.id)
+
 class Address(models.Model):
     name = models.CharField(max_length=30)
     user = models.ForeignKey(User)
@@ -58,20 +69,13 @@ class Delivery(models.Model):
     def __unicode__(self):
         return self.name
 
-class Order(models.Model):
-    time = models.DateTimeField(auto_now = True)
-    user = models.ForeignKey(User)
-    addr = models.CharField(max_length=255, blank=True)
-    tel = models.CharField(max_length=20, blank=True)
-    extra_info = models.CharField(max_length=255, null = True, blank = True)
-    delivery = models.ForeignKey(Delivery, null=True)
-    state = models.IntegerField()
-    menu = models.ManyToManyField(Menu, through='OrderItem')
-    def __unicode__(self):
-        return 'Order' + unicode(self.id)
+class Account(models.Model):
+	money = models.FloatField()
+	user = models.ForeignKey(User)
 
+	def __unicode__(self):
+		return self.user.username
 
-   
 class OrderItem(models.Model):
     order = models.ForeignKey(Order)
     menu = models.ForeignKey(Menu)
@@ -91,11 +95,3 @@ class Message(models.Model):
 
 	def __unicode__(self):
 		return 'Message:'+unicode(self.title)+' sender:'+unicode(self.sender)
-
-class Account(models.Model):
-	money = models.FloatField()
-	user = models.ForeignKey(User)
-
-	def __unicode__(self):
-		return self.user.username
-
