@@ -13,6 +13,27 @@ import settings
 def redirect_to(request):
 	return HttpResponseRedirect('/index3/')
 
+urlpatterns+=patterns('custom.tv',
+	url(r'^address/$','address'),
+	url(r'^address/del/(?P<id>\d+)/$','address_del'),
+	url(r'^address/(?P<id>\d+)/$','address'),
+
+	url(r'^message/$','message'),
+	url(r'^message/(?P<page>\d+)/$','message'),
+	url(r'^message/outbox/$','message',{'type':1}),
+	url(r'^message/outbox/(?P<page>\d+)/$','message',{'type':1}),
+	url(r'^message/draft/$','message',{'type':2}),
+	url(r'^message/draft/(?P<id>\d+)/$','message',{'type':2}),
+
+	url(r'^message/edit/$','message_edit'),
+	url(r'^message/edit/(?P<id>\d+)/$','message_edit'),
+
+	url(r'^message/del/(?P<id>\d+)/$','message_del'),
+
+
+	url(r'food/(?P<id>\d+)/$','food'),
+)
+
 urlpatterns = patterns('',
     # Examples:
     url(r'^$',redirect_to),
@@ -53,26 +74,3 @@ urlpatterns += patterns('custom.views',
 	(r'^food/spec/(?P<id>\d+)/(?P<page>\d+)/$', 'foodspec'),
 	(r'^food/spec/(?P<id>\d+)/$', 'foodspec'),
 )
-
-urlpatterns+=patterns('custom.tv',
-	url(r'^address/$','address'),
-	url(r'^address/del/(?P<id>\d+)/$','address_del'),
-	url(r'^address/(?P<id>\d+)/$','address'),
-
-	url(r'^message/$','message'),
-	url(r'^message/(?P<page>\d+)/$','message'),
-	url(r'^message/outbox/$','message',{'type':1}),
-	url(r'^message/outbox/(?P<page>\d+)/$','message',{'type':1}),
-	url(r'^message/draft/$','message',{'type':2}),
-	url(r'^message/draft/(?P<id>\d+)/$','message',{'type':2}),
-
-	url(r'^message/edit/$','message_edit'),
-	url(r'^message/edit/(?P<id>\d+)/$','message_edit'),
-
-	url(r'^message/del/(?P<id>\d+)/$','message_del'),
-
-
-	url(r'food/(?P<id>\d+)/$','food'),
-)
-
-
