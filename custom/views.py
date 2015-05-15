@@ -210,7 +210,105 @@ def order_history(request, page='1'):
 	form = DateForm()
 	return render(request, 'order_history.html', {'orders': orders, 'form':form, 'page':page+1, 'pages': pages})
 
+@login_required
+def current_order(request):
+	user = request.user
 
+	error = '您还没有订购任何食物。'
+	total = 0.0
+	if request.method == "GET":
+		try:
+			order = user.order_set.get(state=unfinished)
+			items = order.orderitem_set.all()
+			for item in items:
+				total += item.menu.cost * item.amount
+			error = ''
+		except Order.DoesNotExist:
+			items = []
+		
+	elif request.method == "POST":
+		order = get_object_or_404(Order, user=user, state=unfinished)
+		order.delete()
+		items = []
+		error = "您的订单已经被删除"
+	
+	return render(request, 'current_order.html', {'error':error, 'order':items, 'total':total})
+
+@login_required	
+def order_update(request, id):
+
+	if request.method == 'POST':
+		return httpr('致命错误')
+
+	elif request.method == 'GET':
+		user = request.user
+		amount = request.GET.get('amount', '0')
+		#keyError
+		try:
+			amount = int(amount)
+		except ValueError:
+			return httpr('致命错误')
+		if (amount < 0):
+			return httpr('尚未支持的操作。')
+
+		try:
+			menu = Menu.objects.get(id=id)
+			order = user.order_set.get(state=unfinished)
+			item = order.orderitem_set.get(menu=menu);
+		except (Menu.DoesNotExist, Order.DoesNotExist, OrderItem.DoesNotExist):
+			return httpr('致命错误')
+	
+		if amount > 0:
+			item.amount = amount
+			item.save()
+		else:
+			item.delete()
+			if not order.orderitem_set.all():
+				order.delete()
+
+		return httpr('0')
+
+@login_required
+def order_committing(request):
+	user = request.user
+	#update customer_info
+	if request.method == "GET":
+		print "get"
+		raise Http404
+
+	elif request.method == "POST":
+		#validate		
+		try:
+			address = request.POST.get('addr')
+			tel = request.POST.get('tel')
+			name = request.POST.get('name')
+		except KeyError:
+			print "keyerror"
+			return HttpResponseRedirect("/errors_report/0/")
+
+			return HttpResponseRedirect("/order/comfirm/")
+
+		customer = get_object_or_404(Customer, owner=request.user)
+		paymethod = request.POST.get("paymethod", "xxx")
+		options = paymethods[:customer.level+2]
+		try:
+			paymethod = options.index(paymethod)
+		except ValueError:
+			print "paymethod"
+			raise Http404
+
+		order = get_object_or_404(Order, user=user, state=unfinished)
+		order.extra_info=request.POST.get("extra-info", "")
+		total = calc_order(order)
+
+		#*check for unpaid order, 
+		#in case someone keep order by cash but do not pay
+		print user.username
+		tmp = Order.objects.filter(user=user, state=unpaid).count()
+		if tmp > 3:
+			#wrong code 2
+			return HttpResponseRedirect("/errors_report/1/")
+	
 
 @login_required	
 def recommands(request, ajax=False):
@@ -287,145 +385,7 @@ def recommands(request, ajax=False):
 		user.message_set.create(message='食物已经成功加入到您的订单中')		
 
 		return render(request, 'recommands.html',{'foods':foods, 'recorders':recorders})
-
 		
-@login_required
-def current_order(request):
-	user = request.user
-
-	error = '您还没有订购任何食物。'
-	total = 0.0
-	if request.method == "GET":
-		try:
-			order = user.order_set.get(state=unfinished)
-			items = order.orderitem_set.all()
-			for item in items:
-				total += item.menu.cost * item.amount
-			error = ''
-		except Order.DoesNotExist:
-			items = []
-		
-	elif request.method == "POST":
-		order = get_object_or_404(Order, user=user, state=unfinished)
-		order.delete()
-		items = []
-		error = "您的订单已经被删除"
-	
-	return render(request, 'current_order.html', {'error':error, 'order':items, 'total':total})
-
-@login_required	
-def order_update(request, id):
-
-	if request.method == 'POST':
-		return httpr('致命错误')
-
-	elif request.method == 'GET':
-		user = request.user
-		amount = request.GET.get('amount', '0')
-		#keyError
-		try:
-			amount = int(amount)
-		except ValueError:
-			return httpr('致命错误')
-		if (amount < 0):
-			return httpr('尚未支持的操作。')
-
-		try:
-			menu = Menu.objects.get(id=id)
-			order = user.order_set.get(state=unfinished)
-			item = order.orderitem_set.get(menu=menu);
-		except (Menu.DoesNotExist, Order.DoesNotExist, OrderItem.DoesNotExist):
-			return httpr('致命错误')
-	
-		if amount > 0:
-			item.amount = amount
-			item.save()
-		else:
-			item.delete()
-			if not order.orderitem_set.all():
-				order.delete()
-
-		return httpr('0')
-
-
-
-@login_required
-def order_comfirm(request):
-	
-	user = request.user
-	if request.method == "GET":
-		order = get_object_or_404(Order, user=user, state=unfinished)
-		try:
-			customer = user.customer
-		except Customer.DoesNotExist:
-			customer = newcustomer(user)
-
-		orderitem = order.orderitem_set.all()
-
-		total = 0
-		for item in orderitem:
-			total += item.menu.cost * item.amount
-		
-		addrs = user.address_set.all()
-		options = paymethods[:customer.level+2]
-		
-		try:
-			account = Account.objects.get(user = user)
-			#bugs for not only one account
-		except Account.DoesNotExist:
-			account = Account()
-			account.money = 0
-			account.user = user
-			account.save()
-
-		money = account.money;
-
-		return render(request, "pay.html", locals())
-	else:
-		raise Http404
-
-
-@login_required
-def order_committing(request):
-	user = request.user
-	#update customer_info
-	if request.method == "GET":
-		print "get"
-		raise Http404
-
-	elif request.method == "POST":
-		#validate		
-		try:
-			address = request.POST.get('addr')
-			tel = request.POST.get('tel')
-			name = request.POST.get('name')
-		except KeyError:
-			print "keyerror"
-			return HttpResponseRedirect("/errors_report/0/")
-
-			return HttpResponseRedirect("/order/comfirm/")
-
-		customer = get_object_or_404(Customer, owner=request.user)
-		paymethod = request.POST.get("paymethod", "xxx")
-		options = paymethods[:customer.level+2]
-		try:
-			paymethod = options.index(paymethod)
-		except ValueError:
-			print "paymethod"
-			raise Http404
-
-		order = get_object_or_404(Order, user=user, state=unfinished)
-		order.extra_info=request.POST.get("extra-info", "")
-		total = calc_order(order)
-
-		#*check for unpaid order, 
-		#in case someone keep order by cash but do not pay
-		print user.username
-		tmp = Order.objects.filter(user=user, state=unpaid).count()
-		if tmp > 3:
-			#wrong code 2
-			return HttpResponseRedirect("/errors_report/1/")
-			
 
 #UNIPAY
 		if paymethod == 0: 
@@ -474,6 +434,42 @@ def order_committing(request):
 			update_book(order)
 			user.message_set.create(message="Order Successfully.")
 			return HttpResponseRedirect("/")
+
+
+@login_required
+def order_comfirm(request):
+	
+	user = request.user
+	if request.method == "GET":
+		order = get_object_or_404(Order, user=user, state=unfinished)
+		try:
+			customer = user.customer
+		except Customer.DoesNotExist:
+			customer = newcustomer(user)
+
+		orderitem = order.orderitem_set.all()
+
+		total = 0
+		for item in orderitem:
+			total += item.menu.cost * item.amount
+		
+		addrs = user.address_set.all()
+		options = paymethods[:customer.level+2]
+		
+		try:
+			account = Account.objects.get(user = user)
+			#bugs for not only one account
+		except Account.DoesNotExist:
+			account = Account()
+			account.money = 0
+			account.user = user
+			account.save()
+
+		money = account.money;
+
+		return render(request, "pay.html", locals())
+	else:
+		raise Http404
 
 @login_required
 def order_dup(request, id):
