@@ -9,49 +9,6 @@ import datetime
 genderchoice = (('male', '男'), ('female','女'),)
 image_type = ['jpg', 'jpeg', 'png', 'gif', 'tiff', ]
 
-class CustomerForm(forms.ModelForm):
-	class Meta:
-		model = Customer
-		fields = ('name', 'gender', 'tel', 'image')
-	
-	def clean_image(self):
-		image = self.cleaned_data['image']
-
-		
-		if not image:
-			return image
-		
-		try:
-			s = image.__dict__['_name']
-			s = s.split('.')
-			s = s[-1]
-			s = s.lower()
-			if not s in image_type:
-				raise forms.ValidationError('不是一个有效的图片文件')
-			image.__dict__['_name'] = str(self.instance.owner.username)+'_pic.'+s
-		except KeyError:
-			pass
-
-		
-		return image
-#    name = forms.CharField(max_length=50, required=False)
-#    gender = forms.ChoiceField(widget=forms.Select, choices=genderchoice, required=False)
-#    tel = forms.CharField(max_length=30, required=False)
-#    email = forms.EmailField(required=False)
-#    image = forms.CharField(max_length=255, required=False)
-
-#class MenuForm(forms.Form):
-#    name = forms.CharField(max_length = 255)
-#    cost = forms.CharField()
-#    #image = forms.CharField(max_length = 255)
-#    description = forms.CharField(widget=forms.Textarea, required=False)
-
-class MenuForm(forms.ModelForm):
-	class Meta:
-		model = Menu
-		fields = ('name', 'cost', 'description',)
-    
-import re
 class AddressForm(forms.ModelForm):
 	addr=forms.CharField(widget=forms.TextInput(attrs={'size':60}),label='地址')
 	def clean_tel(self):
@@ -101,6 +58,51 @@ class DeliveryForm(forms.Form):
 
 class DateForm(forms.Form):
 	start = forms.DateField(initial=datetime.date.today, widget=widgets.AdminDateWidget())
+
+
+class CustomerForm(forms.ModelForm):
+	class Meta:
+		model = Customer
+		fields = ('name', 'gender', 'tel', 'image')
+	
+	def clean_image(self):
+		image = self.cleaned_data['image']
+
+		
+		if not image:
+			return image
+		
+		try:
+			s = image.__dict__['_name']
+			s = s.split('.')
+			s = s[-1]
+			s = s.lower()
+			if not s in image_type:
+				raise forms.ValidationError('不是一个有效的图片文件')
+			image.__dict__['_name'] = str(self.instance.owner.username)+'_pic.'+s
+		except KeyError:
+			pass
+
+		
+		return image
+#    name = forms.CharField(max_length=50, required=False)
+#    gender = forms.ChoiceField(widget=forms.Select, choices=genderchoice, required=False)
+#    tel = forms.CharField(max_length=30, required=False)
+#    email = forms.EmailField(required=False)
+#    image = forms.CharField(max_length=255, required=False)
+
+#class MenuForm(forms.Form):
+#    name = forms.CharField(max_length = 255)
+#    cost = forms.CharField()
+#    #image = forms.CharField(max_length = 255)
+#    description = forms.CharField(widget=forms.Textarea, required=False)
+
+class MenuForm(forms.ModelForm):
+	class Meta:
+		model = Menu
+		fields = ('name', 'cost', 'description',)
+    
+import re
 
 
 
