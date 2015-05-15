@@ -1,0 +1,24 @@
+				<script type="text/javascript" src="/static/js/account_change.js"></script>
+				{% if user.is_authenticated %}
+					<div id="user-tools">
+						欢迎,<strong>{{ user.username }}</strong>
+						<a href="/accounts/">账户设置</a>&nbsp;|
+						<a href="/message/">消息</a>&nbsp;|
+						<a href="/accounts/login/" id="account_change">更换账户</a>&nbsp;|
+						<a href="/accounts/logout/">注销</a>
+					</div>
+					{% if messages %}
+					<script type="text/javascript" src="/static/js/user_message.js"></script>
+					<ul id="user_message" style="display:none">
+						{% for message in messages %}
+							<li>{{ message }}</li>
+						{% endfor %}
+					</ul>
+					{% endif %}
+				{% else %}
+					<div id="user-tools">
+						游客您好,欢迎光临, . 您可以进行
+						<a href="/accounts/login/?next=/index3/"><strong>登录</strong></a>&nbsp;或者&nbsp;
+						<a href="/accounts/register/"><strong>注册</strong></a>
+					</div>
+				{% endif %}
