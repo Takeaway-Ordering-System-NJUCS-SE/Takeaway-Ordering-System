@@ -1,8 +1,7 @@
-{% extends 'home_base.html' %}
+{% extends 'base_accounts.html' %}
 
 {% block content %}
 	<div id="content-main">
-		{% block before_form %} {% endblock %}
 		<form action="{% block action %}{% endblock %}" method="post" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
 			{% csrf_token %}
 			<div>
@@ -23,7 +22,5 @@
 				</div>
 			</div>
 		</form>
-		{% block after_form %}{% endblock %}
-
 	</div>
 {% endblock %}
