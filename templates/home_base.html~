@@ -1,13 +1,4 @@
-{% extends 'base.html' %}
-
-{% block extra_head %}
-	<link rel="stylesheet" type="text/css" media="screen" href="/static/admin/css/changelists.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="/static/css/site.css" />
-	<script type="text/javascript" src="/static/js/jquery.infopad.js"></script>
-	{% block style_js %}
-	{% endblock %}
-{% endblock %}
-
+{% ext
 {% block body %}
 	<!-- Container -->
 	<div id="container">
