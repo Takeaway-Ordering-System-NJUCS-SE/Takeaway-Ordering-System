@@ -1,0 +1,33 @@
+{% extends 'home_base.html' %}
+
+
+{% block title %}NOS{% endblock %}
+
+
+{% block style_js %}
+<link rel="stylesheet" type="text/css" media="screen" href="/static/css/index.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="/static/css/foods.css" />
+{% endblock %}
+
+
+{% block content %}
+
+<div id="navigator">
+</div>
+
+<fieldset>
+<legend>Promotion</legend>
+{% include 'fooddiv.html' with spe=1 order=order1%}
+</fieldset>
+
+<fieldset>
+<legend>Lattest</legend>
+{% include 'fooddiv.html' with spe=2 order=order2%}
+</fieldset>
+
+<fieldset>
+<legend>Others</legend>
+{% include 'fooddiv.html' with spe=3 order=order3%}
+</fieldset>
+
+{% endblock %}

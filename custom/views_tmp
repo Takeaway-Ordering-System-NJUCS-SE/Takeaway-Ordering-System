@@ -1,0 +1,279 @@
+# Create your views here.
+
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render_to_response, render, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.template import RequestContext
+
+
+from custom.models import *
+from custom.forms import *
+
+
+import datetime
+
+#shortcuts for shortcuts
+rento=render_to_response
+httpr=HttpResponse
+
+#tools
+def newcustomer(owner):
+	p = Customer()
+	p.level = 0
+	p.score = 0
+	p.owner = owner
+
+	p.save()
+	return p
+
+
+def imageresize(path):
+	im = Image.open(path)
+
+	newsize = im.size
+	if newsize[0] < newsize[1]:
+		scale = int(newsize[0] / 200.0)
+	else:
+		scale = int(newsize[1] / 200.0)
+
+	if scale==0:
+		return
+		
+	newsize = [i / scale for i in newsize]
+
+	im = im.resize(newsize, Image.ANTIALIAS)
+	
+	l = (newsize[0] - 200) / 2
+	r = (newsize[1] - 200) / 2
+	box = (l, r, l + 200, r + 200)
+	im = im.crop(box)
+	im.save(path)
+
+
+def calc_order(order):
+	items = order.orderitem_set.all()
+	total = 0.0
+	for item in items:	
+		total += item.menu.cost * item.amount
+	return total
+
+#views functions
+	
+
+@login_required
+def personal_info(request):
+	user = request.user
+
+	try:
+		p = user.customer
+	except Customer.DoesNotExist:
+		p = newcustomer(user)
+#		p = Customer()
+#		p.level = 0
+#		p.score = 0
+#		p.owner = user
+#		p.save()
+#
+	if request.method == 'GET':
+		form = CustomerForm(instance = p)
+
+	elif request.method == 'POST':
+		#form = CustomerForm(request.POST, instance = user.customer)
+		form = CustomerForm(request.POST, request.FILES, instance = p)
+		#print request.FILES['image']
+		
+		if form.is_valid():
+			user.message_set.create(message='You profile have changed')
+			form.save()
+			if request.FILES:
+				try:
+					tmp=form.cleaned_data['image'].__dict__['_name']
+					exist=True
+				except KeyError:
+					exist=False
+				if exist:
+					path = '/root/web/work/media/'+ unicode(user.customer.image)
+					imageresize(str(path))
+			return HttpResponseRedirect('/editprofile/')
+
+		##REVICE: should be reviced when homepage is done
+	return render(request, 'profile_edit.html', {'form': form, })
+
+@login_required
+def order_history(request):
+	user = request.user
+	try:
+		orders = user.order_set.all()
+		cost = []
+		for order in orders:
+			a = 0
+			for item in order.orderitem_set.all():
+				a += item.amount * item.menu.cost
+			cost.append(a)
+	#	orders = zip(orders, cost)
+		orders = zip(orders, cost)
+	except Customer.DoesNotExist:
+		orders = []
+	return render(request, 'order_history.html', {'orders': orders})
+
+#constant
+
+#order states
+unfinished = 0
+committed = 1
+paid = 2
+cooking = 3
+delivering = 4
+finished = 5
+fronzen = 6
+unpaid = 8
+
+
+
+@login_required	
+def recommands(request,ajax=False):
+
+	foods = Menu.objects.order_by('-book')
+	if len(foods) > 20:
+		foods = foods[:20]
+
+	if request.method == 'GET':
+		return render(request, 'recommands.html',{'foods':foods})
+
+	elif request.method == 'POST':
+		amount = request.POST.get('amount', '0')
+		menuid = request.POST['foodid']
+		errors = []
+		try:
+			amount = int(amount)
+			menu = Menu.objects.get(id=menuid)
+		except KeyError:
+			errors.append('You should fill in a number')
+
+		if amount == 0:
+			errors.append('You didn\t add any food, actualy.')
+		elif amount < 0:
+			errors.append('Well, negative is negative.')
+
+		user = request.user
+		try:
+			menu = Menu.objects.get(id = menuid)
+		except Menu.DoesNotExist:
+			errors.append('Invalid POST')
+
+		if errors:
+			if ajax:
+				return httpr('1')
+
+			for error in errors:
+				user.message_set.create(message=error)
+			return render(request, 'recommands.html',{'foods':foods})
+
+		try:
+			order = user.order_set.get(state = unfinished)
+		except Order.DoesNotExist:
+			order = Order()
+			order.state = unfinished
+			order.user = user
+			order.addr = ''
+			order.tel = ''
+			order.delivery = Delivery.objects.all()[0]
+			order.save()
+
+		try:
+			orderitem = OrderItem.objects.get(menu=menu, order=order)
+			orderitem.amount += amount
+		except OrderItem.DoesNotExist:
+			orderitem = OrderItem()
+			orderitem.order = order
+			orderitem.amount = amount
+			orderitem.menu = Menu.objects.get(id=menuid)
+
+		orderitem.save()
+
+		if ajax:
+			return httpr('0')
+
+		user.message_set.create(message='The food has been added to your order Successfully')		
+		return render(request, 'recommands.html',{'foods':foods})
+
+		
+@login_required
+def current_order(request):
+	user = request.user
+
+	error = ''
+	total = 0.0
+	try:
+		order = user.order_set.get(state=unfinished)
+		items = order.orderitem_set.all()
+		for item in items:
+			total += item.menu.cost * item.amount
+	except Order.DoesNotExist:
+		error = 'You have not order any food yet.'
+		items = []
+	
+	return render(request, 'current_order.html', {'error':error, 'order':items, 'total':total})
+		
+@login_required	
+def order_update(request, id):
+
+	if request.method == 'POST':
+		return httpr('fuck you')
+
+	elif request.method == 'GET':
+		user = request.user
+		amount = request.GET.get('amount', '0')
+		#keyError
+		try:
+			amount = int(amount)
+		except ValueError:
+			return httpr('fuck you')
+
+		try:
+			menu = Menu.objects.get(id=id)
+			order = user.order_set.get(state=unfinished)
+			item = order.orderitem_set.get(menu=menu);
+		except (Menu.DoesNotExist, Order.DoesNotExist, OrderItem.DoesNotExist):
+			return httpr('shit')
+	
+		if amount > 0:
+			item.amount = amount
+			item.save()
+		else:
+			item.delete()
+			if not order.orderitem_set.all():
+				order.delete()
+
+		return httpr('0')
+
+	#elif request == "POST":
+
+paymethods = ["Unipay", "Local Accounts", "Cash", "Overdraft",]
+
+@login_required
+def order_comfirm(request):
+	
+	user = request.user
+	if request.method == "GET":
+		order = get_object_or_404(Order, user=user, state=unfinished)
+		customer = get_object_or_404(Customer, owner=user)
+		orderitem = order.orderitem_set.all()
+
+		total = 0
+		for item in orderitem:
+			total += item.menu.cost * item.amount
+		
+		addrs = user.address_set.all()
+		options = paymethods[:customer.level+2]
+
+		return render(request, "pay.html", locals())
+	else:
+		return httpr("fuck you")
+
+
+def order_committed(request):
+	pass
+def order_committing(request):
+	pass
+

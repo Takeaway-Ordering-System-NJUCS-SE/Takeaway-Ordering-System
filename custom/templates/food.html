@@ -1,0 +1,103 @@
+{% extends 'home_base.html' %}
+
+{% block title %}HomePage{% endblock %}
+
+{% block style_js %}
+	<script type="text/javascript" src="/static/js/infopad_init.js"></script>
+	<script type="text/javascript" src="/static/js/food_submit.js"></script>
+	<style type="text/css">
+		#top{
+			position:relative;
+		}
+		#pic{
+			position:absolute;
+			left:0;
+			top:10px;
+			width:200px;
+			height:200px;
+			margin:10px;
+			{% ifequal item.image 'None' %}border:1px dashed blue;{% endifequal %}
+		}
+		#pic img{
+			border-radius:10px;
+			width:199px;
+			height:199px;
+		}
+		#order_div
+		{
+			position:absolute;
+			left:220px;
+			bottom:10px;
+			width:250px;
+			hieght:100px;
+			text-align:center;
+		}
+		#order_div a
+		{
+			color:blue;
+		}
+		#detail{
+			margin-left:220px;
+		}
+		#detail h1{
+			margin:0px 40px 80px 20px;
+			padding-top:50px;
+			text-align:center;
+		}
+		#detail p{
+			margin-left:60%;
+			position:relative;
+		}
+		#detail p span{
+			display:block;
+			position:absolute;
+			left:70px;
+			top:0;
+		}
+		#description{
+			margin-top:20px;
+			padding-left:20px;
+		}
+	</style>
+{% endblock %}
+
+{% block content %}
+	<div id="top">
+		<div id="pic">
+			{% ifnotequal item.image 'None' %}
+			<img src="/media/food/{{ item.image }}" alt="{{ item.name }}" />
+			{% else %}
+			<p style="margin-top:84px;text-align:center">no preview</p>
+			{% endifnotequal %}
+		</div>
+		
+		<div id="detail">
+			<h1 id="food_name">{{ item.name }}</h1>
+			<p><strong>Price:</strong>&nbsp;&nbsp;<span>${{ item.cost|floatformat:2 }}/per</span></p>
+			<p><strong>Clicked:</strong>&nbsp;&nbsp;<span>{{ item.click }}</span></p>
+			<p><strong>Booked:</strong>&nbsp;&nbsp;<span>{{ item.book }}</span></p>
+		</div>
+
+		<div id="order_div">
+		{% if not user.is_authenticated %}
+			<p>You can order this item after <a href="/accounts/login/?next={{ path }}">login</a></p>	
+		{% else %}
+			<form action="/recommands/ajax/" method="post" class="order">
+				{% csrf_token %}
+				<strong>I want to buy</strong>
+				<br /><input class="amount" type='text' size="15" name='amount' style='text-align:right;' value='1'/>
+				<input type='hidden' value='{{item.id}}' name='foodid' />
+				<input class="order" type='submit' value='Order' style='position:absolute; right:5px;'/>
+			</form>
+		{% endif %}
+		</div>
+	</div>
+	<div id="description">
+		<h2>Description:</h2>
+		{% if item.description %}
+		&nbsp;&nbsp;&nbsp;&nbsp;{{ item.description }}
+		{% else %}
+		&nbsp;&nbsp;&nbsp;&nbsp;Sorry, no description is available for this food now
+		{% endif %}
+	</div>
+{% endblock %}

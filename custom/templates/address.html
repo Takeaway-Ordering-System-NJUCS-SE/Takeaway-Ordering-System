@@ -1,0 +1,98 @@
+{% extends 'form_home_base.html' %}
+
+{% block title %}Personal Infomation{% endblock %}
+
+{% block style_js %}
+	<style type="text/css">
+		div.address_field{
+			padding:10px;
+			border-bottom:1px dashed grey;
+			position:relative;
+		}
+		div.address_field:hover{
+			background-color: #fafafa;
+			-moz-transition-property:background-color;
+			-o-transition-property:background-color;
+			-moz-transition-duration:.3s;
+			-webkit-transition-duration:.3s;
+			-o-transition-duration:.3s;
+		}
+		div.tel{
+			padding-left:10px;
+			position:absolute;
+			left:0;
+			width:200px;
+		}
+		div.name{
+			position:absolute;
+			left:140px;
+			width:60px;
+			overflow:hidden;
+			text-overflow:ellipsis;
+		}
+		div.addr{
+			margin-left:200px;
+		}
+		div.delete{
+			display:none;
+			position:absolute;
+			right:10px;
+			top:10px;
+		}
+		h1.title{
+			border-top:1px solid grey;
+			margin-top:10px;
+			margin-bottom:20px;
+		}
+		#full_warning{
+			padding: 4px 5px 4px 25px;
+			margin: 0 0 3px 0;
+			border: 1px solid green;
+			color: white;
+			background: green url(/static/admin/img/admin/icon_alert.gif) 5px .3em no-repeat;
+		}
+	</style>
+	<script type="text/javascript" src="/static/js/address.js"></script>
+{% endblock %}
+
+{% block after_form %}
+	{% if item %}
+		<h1 class="title">Your address book</h1>
+
+		{% if not permit %}
+			<p id="full_warning">Your address book is full, you can not add new address to it</p>
+		{% endif %}
+
+		{% for i in item %}
+			<div class='address_field'>
+				<div class="tel">
+				{{ i.tel }}
+				</div>
+				<div class="name">
+				{{ i.name }}
+				</div>
+				<div class="addr">
+				{{ i.addr }}
+				</div>
+				<div class="delete"><a href="{% url custom.tv.address i.id %}" title="Edit the item">Edit</a>&nbsp;/&nbsp;<a href="{% url custom.tv.address_del i.id %}" title="Delete the item" class="del">Delete</a></div>
+			</div>
+		{% endfor %}
+	{% else %}
+		<p> You have no address in your address book</p>
+	{% endif %}
+{% endblock %}
+
+{% block form_up %}
+{% if not id %}
+	<h1>Manage your address</h1>
+	<p>complete next form to add an new address to your address book</p>
+{% else %}
+	<h1>Edit your address</h1>
+	<p>complete next form to add the selected address.</p>
+{% endif %}
+{% endblock %}
+
+{% block submit %}
+	<input type='submit' value='Submit' class='default' />
+{% endblock %}
+

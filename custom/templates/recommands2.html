@@ -1,0 +1,49 @@
+{% extends 'home_base.html' %}
+
+{% block title %}{{ user.username }}, take a look{% endblock %}
+
+{% block style_js %}
+<link rel="stylesheet" type="text/css" media="screen" href="/static/css/foods.css" />
+<script type="text/javascript" src="/static/js/infopad_init.js"></script>
+<script type="text/javascript" src="/static/js/food-order.js"></script>
+{% endblock %}
+
+
+{% block logo_area %}
+{% endblock %}
+
+
+{% block content %}
+	<div >
+	</div>
+
+	{% for food in foods %}
+	<div class="food">
+		<div class="food-pic"><img src='{{food.image}}' /></div>
+		<div class="food-info">
+			<p class="food-name"><a href="/food/{{ food.id }}/"><strong>{{food.name}}</strong></a></p>
+			<div class="food-price">Price: ${{food.cost}}</div>
+			<p>{{food.description}}</p>
+			<span>Ordered Times:{{food.book}}&nbsp;&nbsp;</span>
+			<span>Click: {{food.click}}</span>
+			<span class="food-link" style="color:#222">
+				<span class="food-order" style="text-decoration:underline; cursor:pointer;">I want it</span>
+				<div class="hidden" style="display:none;" style='position:relative'>
+					<form method='post' action='' class="order"> {% csrf_token %}
+						<strong>Amount:&nbsp;&nbsp;</strong><input class="amount" type='text' name='amount' style='text-align:right;' value='1'/>
+						<input type='hidden' value='{{food.id}}' name='foodid' />
+						<input class="order" type='submit' value='Order' style='position:absolute; right:5px;'/>
+					</form>
+				</div>
+				<span>&nbsp;&nbsp;</span>
+				<a href="/food/{{food.id}}/">more info</a>
+			</span>
+
+
+			
+			<br class="clear" />
+		</div>
+		<br class="clear" />
+	</div>
+	{% endfor %}
+{% endblock %}

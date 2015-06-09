@@ -1,0 +1,64 @@
+{% extends 'home_base.html' %}
+
+{% block style_js %}
+<link rel="stylesheet" type="text/css" media="screen" href="/static/css/current_order.css" />
+<script type="text/javascript" src="/static/js/order-edit.js"></script>
+{% endblock %}
+
+
+{% block content %}
+	{% if error %}
+	<div align="center">
+	<h2 style="color:red"> {{error}} </h2>
+	</div>
+	{% else %}
+	<div class="order-table" style="margin:40px 0 0 55px; position:relative;">
+	<form method='post' action=''>{%csrf_token%}
+		<div class="order-header">
+		<h1 style="color: #111111; font-size: 22px;">{{user.username}}'s Order</h1>
+		<p class="brief"> You've ordered <span class="count">{{order.count}}</span> kinds of foods which sum up to <span class="total">{{total}}</span> dollars.</p>
+		</div>
+		<div style="height:40px; position:relative;">
+<!--		<input type="submit" value="Pay Now" />
+-->
+		<a href="/order/comfirm">
+		<button style="position:absolute; right:48px; top:0px; height:30px; color: #226688; font-weight: bold; "><em>PAY NOW!</em></button>
+		</a>
+		<form action="" method="post">
+		<span style="position:absolute; right: 150px; top:0px; font-size:18px; height:30px;"><input title="Delete the whole order" class="admin-style" type="submit" value="Discard" id="discard" /></span>
+		</form>
+		</div>
+
+		<div class="table-bar"> <div style="position:absolute; left: 72px;">Food Name</div>
+		<div style="position:absolute; right:136px;">Price</div>
+		<div style="position:absolute; right:60px;">Amount</div><br />
+		</div>
+		{% for item in order %}
+
+		<div class="orderitem">
+			<div class="food-pic">
+			{% if item.menu.image != 'None' %}
+			<img src='/media/food/{{item.menu.image}}' style="width:80px; height:80px;"/>
+			{% else %}
+			<img src='/media/food/none.jpg' style="width:80px; height: 80px;">
+			{% endif %}
+			</div>
+			<div class="item-info">
+				<p class="food-name"><strong><a href="/food/{{item.menu.id}}/">{{item.menu.name}}</a></strong></p>
+				<p class="Delete" style="width:45px; color:#348956; cursor:pointer;">Delete</p>
+
+				<div class="money" style="position:absolute; right:-20px; bottom:5px;">
+				<span> {{item.menu.cost}}&nbsp;*&nbsp;</span>
+				<input type="text" name="{{item.menu.id}}" value="{{item.amount}}" style='width:43px;'/>
+				</div>
+			</div>
+			<br class="clear" />
+		</div>
+		{% endfor %}
+		<div class='item-count'>Total:&nbsp;$<span class="total">{{total}}</span> </div>
+	</form>
+	</div>
+	{% endif %}
+
+
+{% endblock %}

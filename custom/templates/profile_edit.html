@@ -1,0 +1,19 @@
+{% extends 'form_home_base.html' %}
+
+{% block title %}Personal Infomation{% endblock %}
+{% block style_js %}
+	<script type="text/javascript" src="/static/js/edit_profile.js"></script>
+{% endblock %}
+{% block head %} Edit Your Personal Infomation{% endblock %}
+
+
+{% block form_up %}
+<h1>Personal Infomation</h1>
+<p><em>Better service</em> we can provide with the infomation, <em>leaving them empty</em> yet is ok.</p>
+<p><a href="/address/">Want to manage your address? Click here</a></p>
+{% endblock %}
+
+{% block submit %}
+	<input type='submit' value='Submit' class='default' />
+{% endblock %}
+

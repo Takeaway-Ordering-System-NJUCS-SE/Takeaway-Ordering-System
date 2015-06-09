@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block body %}
+	<!-- Container -->
+	<div id="container">
+
+		<!-- Header -->
+		<div id="header">
+			<div id="branding">
+				<h1 id="site-name">{% block head %}{% endblock %}</h1>
+				{% include 'user_tools.html' %}
+			</div>		
+		</div>
+		<!-- END Header -->
+		
+		<div class="breadcrumbs"><a href="/">Home</a>{% block path %}{% endblock %}</div>		
+
+		<!-- Content -->
+		<div id="content" class="colM">
+			{% block content %}
+			{% endblock %}
+			<br class="clear" />
+		</div>
+		<!-- END Content -->
+
+		<div id="footer"></div>
+	</div>
+	<!-- END Container -->
+{% endblock %}

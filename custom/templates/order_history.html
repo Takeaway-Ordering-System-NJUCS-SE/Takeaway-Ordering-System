@@ -1,0 +1,57 @@
+{% extends 'home_base.html' %}
+
+{% block style_js %}
+<link rel="stylesheet" type="text/css" media="screen" href="/static/css/myorder.css" />
+<script type="text/javascript" src="/static/js/history_order.js"></script>
+{{ form.media }}
+{% endblock %}
+
+{% block content %}
+<div id = 'orders' style="margin: 15px;">
+<h1>My Orders:</h1>
+<div class="search">
+	<form method="post" action="">
+	</form>
+</div>
+<div class = 'bar'>
+</div>
+{% if orders %}
+	{% for order, cost in orders %}
+		
+		<div class='order'>
+			<div class='order_header'>
+				<span class="idinfo"><em>Order-{{order.id}}</em></span>
+				<span title="" class="add animation">Put To Cart</span>
+				{% if order.state == 8 %}<span style="color: #996969;">(unpaid)</span>{% endif %}
+				{% if order.state == 0 %}<span style="color: #996969;">(uncommitted)</span>{% endif %}
+			</div>
+			<span class="wrap animation">Hide Detail</span>
+			{% for item in order.orderitem_set.all %}
+			<div class='order_item {% cycle "row2" "row1"%}'>
+			{% comment %}
+				<div class='item_pic'><img src='/media/foods/{{item.menu.img}}' /></div>
+				{% endcomment %}
+				<div class='item' >
+					<div class='orderele1 orderele'><a href="/food/{{item.menu.id}}">Food:{{item.menu.name}}</a></div>
+					<div class='orderele2 orderele'>Amount:{{item.amount}}</div>
+					<div class='orderele3 orderele'>Price:${{item.menu.cost}}/per</div>
+					<br class="clear" />
+				</div>
+				<br class='clear'/>
+			</div>
+			{% endfor %}
+			<div class="order_footer">
+			<span class='order_date'>Ordering Date:&nbsp;{{ order.time|date }}</span>
+			<span>Total Cost:&nbsp;${{cost}}</span>
+			</div>
+		</div>
+
+	{% endfor %}
+	{% if pages|last > 1 %}
+		{% include 'page_link.html' with link='/myorder' %}
+	{% endif %}
+{% else %}
+<div class="norecords">No Records</div>
+{% endif %}
+</div>
+{% endblock %}

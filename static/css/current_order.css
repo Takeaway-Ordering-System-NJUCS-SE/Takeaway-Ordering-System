@@ -1,0 +1,50 @@
+div.table-bar{
+	font-size: 18px;
+	font-weight: bold;
+	font-family: Arial;
+	margin: 45px 0 0;
+	padding: 0 0 15px;
+	border-bottom:1px dashed #aaa;
+	width: 92%;
+
+}
+div.orderitem{
+	border-bottom: 1px dashed #aaa;
+	width:92%;
+}
+div.order-header{
+	position: absolute;
+	left: -40px;
+	top: 0px;
+}
+p.brief span{
+	font-style: italic;
+	font-weight: bold;
+	color: #762222;
+}
+div.food-pic{
+	float: left;
+	width: 15%;
+	padding: 10px;
+}
+p.food-name{
+	font-size: 16px;
+}
+div.item-info{
+	float: left;
+	position: relative;
+	width: 80%;
+}
+div.item-count{
+	position: absolute;
+	margin: 20px 5px;
+	right: 70px;
+	font-size: 16px;
+}
+input.admin-style{
+	border: 2px solid #7Ba0d2;
+	background: #7CA0C7 url(/static/admin/img/admin/default-bg.gif) bottom repeat-x;
+	font-weight: bold;
+	color: white;
+}
+

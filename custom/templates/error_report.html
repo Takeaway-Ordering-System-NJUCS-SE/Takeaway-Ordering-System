@@ -1,0 +1,22 @@
+{% extends 'home_base.html' %}
+
+{% block style_js %}
+<style type="text/css">
+ul{
+	color: red;
+	font-size: 18px;
+}
+li{
+	list-style: none;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div style="height: 70px;"></div>
+<ul class="error-ul">
+	{% for error in errors %}
+	<li class="error-li">{{error}}</li>
+	{% endfor %}
+</ul>
+{% endblock %}

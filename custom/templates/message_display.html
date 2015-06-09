@@ -1,0 +1,149 @@
+{% extends 'home_base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block style_js %}
+<script type="text/javascript" src="/static/js/infopad_init.js"></script>
+<script type="text/javascript" src="/static/js/message.js"></script>
+<style type="text/css">
+	div.msg_area{
+		position:relative;
+		min-height:85px;
+		padding-left: 75px;
+		padding-right: 110px;
+		padding-top:10px;
+		cursor: pointer;
+		border-bottom: 1px dashed #CDCDCD;
+	}
+	div.msg_area:hover{
+		background-color: #E5EDF2;
+	}
+	div.user_pic{
+		position:absolute;
+		left:10px;
+		top:5px;
+		text-align:center;
+	}
+	div.user_pic img{
+		width:70px;
+		height:70px;
+	}
+	div.message{
+		margin-left:25px;
+	}
+	#bg{
+		margin: 10px;
+		padding: 10px;
+	}
+	p.content{
+		padding-top:5px;
+		margin-left:20px;
+	}
+	p.datetime{
+		bottom:5px;
+	}
+	ul.top-nav li{
+		display:inline;
+		width:100px;
+		float:left;
+		list-style:none;
+	}
+	div.page-nav{
+		height:40px;
+	}
+	div.delete{
+		position:absolute;
+		top:10px;
+		right:10px;
+	}
+	a.disabled{
+		cursor:text;
+	}
+</style>
+{% endblock %}
+
+
+{% block content %}
+	<div id="bg">
+
+		<ul class="top-nav">
+			<li><a href="/message/">Inbox</a></li>
+			<li><a href="/message/outbox/">Outbox</a></li>
+			<li><a href="/message/draft/">Draftbox</a></li>
+			<li><a href="/message/edit/">Send</a></li>
+		</ul>
+
+		<div class="page-nav">
+		{% if page_range|length > 1 %}
+			<ul class="page-nav">
+					<li>
+						{% if current > 0 %}
+						<a href="{{ url }}{{ current|add:'-1' }}">&lt;</a>
+						{% else %}
+						<a class="disabled" href="#">&lt;</a>
+						{% endif %}
+					</li>
+								
+				{% for i in page_range %}
+					{% if i > current|add:'-6' and i < current|add:'6' %}
+					<li {% if i == current %}class="curr-page"{% endif %}><a href="{{ url }}{{ i }}">{{ i }}</a></li>
+					{% endif %}
+				{% endfor %}
+
+					<li>
+						{% if current < page_range|length|add:'-1' %}
+						<a href="{{ url }}{{ current|add:'1' }}">&gt;</a>
+						{% else %}
+						<a class="disabled" href="#">&gt;</a>
+						{% endif %}
+					</li>
+			</ul>
+			<br class="clear" />
+		{% endif %}
+		</div>
+
+		{% for item in items %}
+		<div class="msg_area">
+
+			{% if type == 0 %}
+				{% if item.sender %}
+				<div class="user_pic">
+					<img alt="" src="/media/{{ item.sender.customer.image }}" />
+					<p>
+						{{ item.sender.username }}
+					</p>
+				</div>
+				{% endif %}
+			{% else %}
+				{% if item.receiver %}
+				<div class="user_pic">
+					<img alt="" src="/media/{{ item.receiver.customer.image }}" />
+					<p>
+						{{ item.receiver.username }}
+					</p>
+				</div>
+				{% endif %}
+			{% endif %}
+
+			<div class="message">
+				<div class="title">
+					{{ item.title|title }}
+				</div>
+				<p class="datetime">
+					{{ item.date }}&nbsp;&nbsp;&nbsp;&nbsp;{% if type == 0 %}<a href="/message/edit/{{ item.id }}/">reply it</a>{% endif %}
+				</p>
+				<p class="content">
+					{{ item.content|truncatewords:20 }}
+				</p>
+				<div class="delete">
+					<a href="/message/del/{{ item.id }}/">Delete</a>
+				</div>
+			</div>
+		</div>
+		{% empty %}
+		<div>
+			You have no messages in this box
+		</div>
+		{% endfor %}
+	</div>
+{% endblock %}

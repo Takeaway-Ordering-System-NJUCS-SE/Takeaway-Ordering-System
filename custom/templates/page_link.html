@@ -1,0 +1,26 @@
+<div class="pages_link" style="width:100%; margin:30px;" align=center>
+	<span style="color: #000000; font-family: Courier New; font-size: 14px;">Page:&nbsp;</span>
+
+	<span>
+	{% if page != 1 %}
+		<a href="{{link}}/{{page|add:'-1'}}"><button>Prev</button></a>
+	{% else %}
+		<button class="useless" disabled="disabled">Prev</button>
+	{% endif %}
+	</span>
+
+	{% for i in pages %}
+	{% if i == page %}
+		<span class="page"><a href="{{link}}/{{i}}/" style="color:#880000;">[{{i}}]</a></span>
+	{% else %}
+		<span class="page"><a href="{{link}}/{{i}}/" style="color:#000088;">[{{i}}]</a></span>
+	{% endif %}
+	{% endfor %}
+	<span>
+		{% if page != pages|last %}
+			<a href="{{link}}/{{page|add:'1'}}"><button>Next</button></a>
+		{% else %}
+			<button class="useless" disabled='disabled'>Next</button>
+		{% endif %}
+	</span>
+</div>

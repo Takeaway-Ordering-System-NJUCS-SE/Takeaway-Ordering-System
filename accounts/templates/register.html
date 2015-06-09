@@ -1,0 +1,25 @@
+{% extends 'form_base.html' %}
+
+{% block title %}register{% endblock %}
+
+{% block head %}registration{% endblock %}
+
+{% block extra_head %}
+<style type="text/css">
+	div.clear
+	{
+		clear:both;
+	}
+</style>
+{% endblock %}
+
+{% block path%}&gt;registration{% endblock %}
+
+{% block form_up %}
+	<h1>User registration</h1>
+	<p>Please complete the form to get registered</p>
+{% endblock %}
+
+{% block submit %}
+	<input type="submit" value="Create the account" class="default"/>
+{% endblock %}

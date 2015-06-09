@@ -1,0 +1,15 @@
+{% extends 'home_base.html' %}
+
+{% block style_js %}
+<script type="text/javascript">
+$(document).ready(function(){
+	setTimeout("document.location=\"{{error.1}}\"", 4000);
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div style="height: 70px; font-size: 25px; color: red; aligned:center; margin: 50px;">
+	*{{error.0}}
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block extra_head %}
+	<link rel="stylesheet" type="text/css" media="screen" href="/static/admin/css/changelists.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/static/css/site.css" />
+	{% block style_js %}
+	{% endblock %}
+{% endblock %}
+
+{% block body %}
+	<!-- Container -->
+	<div id="container">
+
+		<!-- Header -->
+		<div id="header">
+			<div id="branding">
+				
+				<h1 id="site-name"></h1>
+				{% include 'user_tools.html' %}
+
+				<!--
+				{% if user.is_authenticated %}
+					<div id="user-tools">
+						Welcome,<strong>{{ user.username }}</strong>
+						<a href="/accounts/password_change/">Change Password</a>/
+						<a href="/accounts/login/">Change an account</a>/
+						<a href="/accounts/logout/">Log out</a>
+					</div>
+				{% else %}
+					<div id="user-tools">
+						Welcome, guest. you can
+						<a href="/accounts/login/?next={{ request.get_full_path }}"><strong>Login</strong></a>&nbsp;or&nbsp;
+						<a href="/accounts/register/"><strong>Start registration</strong></a>
+					</div>
+				{% endif %}
+				-->
+			</div>		
+		</div>
+		<!-- END Header -->
+		
+		<div id="page">
+			<div id="logo_area">
+				<h1>User center</h1>
+				{% block logo_area %}
+				{% endblock %}
+			</div>
+			<div id="display_area">
+				<!-- Content -->
+				<div id="content" class="colM">
+					{% block content %}
+					{% endblock %}
+					<br class="clear" />
+				</div>
+				<!-- END Content -->
+
+				<div id="changelist-filter">
+					<h2>User Menu</h2>
+					<h3>order</h3>
+				</div>
+				<br class="clear" />
+			</div>
+			<div id="footer"></div>
+		</div>
+	</div>
+	<!-- END Container -->
+{% endblock %}

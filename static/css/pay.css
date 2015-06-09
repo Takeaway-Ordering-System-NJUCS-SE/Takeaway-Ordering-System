@@ -1,0 +1,133 @@
+span.wrap{
+	position: absolute;
+	top: 10px;
+	right: 40px;
+	color: #7ca0c7;
+}
+
+div.cost{
+	position: relative;
+	width: 520px;
+	margin-top:40px;
+	border: 1px solid #ccccff;
+	border-radius: 6px;
+}
+h2.cost{
+	padding:8px;
+	margin: 0;
+}
+
+div.cost-header{
+	/*border-radius: 6px;*/
+	position: relative;
+	margin-bottom: 0px;
+    background: #EDF3FE;
+	height: 31px;
+}
+
+div.order-list{
+	border-radius: 6px;
+	/*
+	border: 1px solid #7ca0c7;
+	*/
+	opacity: 1;
+	width: 520px;
+	background: #deeefc;
+	z-index: 1000;
+	position: relative;
+	margin-top: 0px;
+}
+div.itemp{
+	border-top: 1px dashed #7ca0c7;
+	height: 22px;
+	padding-top: 8px;
+}
+div.index{
+	float: left;
+	width: 40px;
+	margin-left:30px;
+}
+div.foodname{
+	width: 200px;
+	float: left;
+}
+div.col{
+	width: 100px;
+	float: left;
+}
+
+div.address-choose{
+	position: relative;
+	border-radius: 8px;
+	border: 1px solid #ccccff;
+	background: #ececff;
+	margin-top: 20px;
+	padding-bottom: 20px;
+	padding:0 5px 10px 5px;
+	width: 520px;
+}
+
+p.addr-table{
+	position: relative;
+}
+p.addr-table input{
+	position: absolute;
+	left: 80px;
+	width: 250px;
+}
+div.pay-method{
+/*
+	position: absolute;
+	right: 5px;
+	top: 0px;
+	*/
+	margin: 0;
+	padding: 15px 0;
+}
+
+div.address-list{
+	border: 1px solid #888888;
+}
+.addrs{
+	height: 18px;
+	margin: 0;
+	padding: 3px;
+	background: #eee;
+}
+p.addrs{
+	font-weight: bold;
+	color: green;
+	border-bottom: 1px solid white;
+}
+div.addrs:hover{
+	background-color: #fafafa;
+	-moz-transition-property:background-color;
+	-o-transition-property:background-color;
+	-moz-transition-duration:.3s;
+	-webkit-transition-duration:.3s;
+	-o-transition-duration:.3s;
+}
+div.addrs{
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid white;
+	cursor: pointer;
+}
+div.addr{
+	float: left;
+	width: 250px;
+}
+
+div.tel{
+	float: left;
+	width: 160px;
+}
+div.name{
+	float: left;
+	width: 80px;
+}
+
+div.extra{
+	position: absolute;
+	right: 15px;
+	top: 50px;
+}

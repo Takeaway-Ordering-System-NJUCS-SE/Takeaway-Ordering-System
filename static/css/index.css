@@ -1,0 +1,11 @@
+fieldset{
+	border: 1px dashed #8888aa;
+	margin-top: 20px;
+}
+legend{
+	font-size: 28px;
+	margin: 20px;
+	font-family: times new roman;
+	font-style: italic;
+	font-weight: bold;
+}

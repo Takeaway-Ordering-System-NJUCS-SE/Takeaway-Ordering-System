@@ -1,0 +1,36 @@
+{% extends 'home_base.html' %}
+{% block title %}NOS{% endblock %}
+
+{% block style_js %}
+<link rel="stylesheet" type="text/css" media="screen" href="/static/css/index2.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="/static/css/foods.css" />
+<script type="text/javascript" src="/static/js/infopad_init.js"></script>
+<script type="text/javascript" src="/static/js/food-order.js"></script>
+<script type="text/javascript" src="/static/js/index2.js"></script>
+{% endblock %}
+
+
+{% block content %}
+<div id="navigator">
+
+{% for spec, order in orders %}
+	{% if forloop.counter == 1 %}
+		<span id="order{{spec.id}}" class="nav vis">{{spec.name}}</span>
+	{% else %}
+		<span id="order{{spec.id}}" class="nav inv">{{spec.name}}</span>
+	{% endif %}
+{% endfor %}
+<br class="clear" />
+</div>
+
+{% for spec, order in orders %}
+
+{% if forloop.counter == 1 %}
+	{% include 'fooddiv.html' with spe=spec.id order=order %}
+{% else %}
+	{% include 'fooddiv.html' with spe=spec.id dis="inv" order=order %}
+{% endif %}
+
+{% endfor %}
+
+{% endblock%}

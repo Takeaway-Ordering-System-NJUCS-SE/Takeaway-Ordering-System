@@ -1,0 +1,18 @@
+{% extends 'home_base.html' %}
+
+
+{% block style_js %}
+<link rel="stylesheet" type="text/css" media="screen" href="/static/css/foods.css" />
+<script type="text/javascript" src="/static/js/infopad_init.js"></script>
+<script type="text/javascript" src="/static/js/food-order.js"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="tag">
+{{spec}}
+</div>
+
+{% include 'foodblock.html' with foods=order%}
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'home_base.html' %}
+{% block title %}NOS{% endblock %}
+
+{% block style_js %}
+<link rel="stylesheet" type="text/css" media="screen" href="/static/css/index2.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="/static/css/foods.css" />
+<script type="text/javascript" src="/static/js/index2.js"></script>
+<script type="text/javascript" src="/static/js/food-order.js"></script>
+{% endblock %}
+
+
+{% block content %}
+<div id="navigator">
+<span id="order1" class="nav vis">Promoted</span>
+<span id="order2" class="nav inv">Lattest</span>
+<span id="order3" class="nav inv">Others</span>
+<br class="clear" />
+</div>
+
+{% include 'fooddiv.html' with spe=1 dis="vis" order=order1 %}
+{% include 'fooddiv.html' with spe=2 dis="inv" order=order2 %}
+{% include 'fooddiv.html' with spe=3 dis="inv" order=order3 %}
+
+{% endblock%}

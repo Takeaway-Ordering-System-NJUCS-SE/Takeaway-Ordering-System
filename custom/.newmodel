@@ -1,0 +1,22 @@
+Address
+user foreign User
+addr char max_length=255
+tel char max_length=30 null blank
+
+Order
+time datetime auto_now_add
+customer foreign Customer
+addr char max_length=255
+tel char max_length=20
+extra_info char max_length=255 null blank
+delivery foreignkey Delivery
+state int
+
+OrderItem
+order foreign Order
+menu foreign Menu
+amount int
+
+Delivery
+name char max_length=30
+performance int

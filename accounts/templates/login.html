@@ -1,0 +1,19 @@
+{% extends 'form_base.html' %}
+
+{% block title %}
+	login gateway
+{% endblock %}
+
+{% block head %}Login{% endblock %}
+
+{% block form_up %}
+	<h1>Login interface</h1>
+	<p>Please enter your username and password to login</p>
+{% endblock %}
+
+{% block submit %}
+	{% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
+	<a href="/accounts/password_reset/"><input type="button" value="forgot password?" /></a>
+	<a href="/accounts/register/"><input type="button" value="Create a account?" /></a>
+	<input type="submit" value="Login" class="default" />
+{% endblock %}

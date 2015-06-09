@@ -1,0 +1,47 @@
+<div class="{{dis}} order" id="divorder{{spe}}">
+{% for food in order %}
+	<div class="food {%cycle 'leftcol' 'rightcol' %}">
+		<div class="food-name"><a href="/food/{{ food.id }}/"><strong>{{food.name}}</strong></a></div>
+		<div class="food-price">Price: ${{food.cost}}</div>
+		<div class="food-pic">
+			{% if food.image != 'None'%}
+				<img alt="" src='/media/food/{{food.image}}' />
+			{% else %}
+				<img alt="" src='/media/food/none.jpg' />
+			{% endif %}
+		</div>
+		<div class="food-info">
+			<p class="descrip">{{food.description|truncatewords:10}}</p>
+			<div class="food-link" style="color:#222">
+				<span class="food-order" style="text-decoration:underline; cursor:pointer;">I want it</span>
+				<div class="hidden" style="display:none;">
+                                        {% if user.is_authenticated %}
+					<form method='post' action='' class="order"> {% csrf_token %}
+						<strong>Amount:&nbsp;&nbsp;</strong><input class="amount" type='text' name='amount' style='text-align:right;' value='1'/>
+						<input type='hidden' value='{{food.id}}' name='foodid' />
+						<input class="order" type='submit' value='Order' style='position:absolute; right:5px;'/>
+					</form>
+                                        {% else %}
+                                        <p style="text-align: center; padding: 0px;"> please login first </p>
+                                        {% endif %}
+				</div>
+				<span>&nbsp;&nbsp;</span>
+				<a href="/food/{{food.id}}/">more info</a>
+			</div>
+
+			<span class="statistic">
+				<span>Ordered Amounts:{{food.book}}&nbsp;&nbsp;</span>
+				<span>Click: {{food.click}}</span>
+			</span>
+
+			<br class="clear" />
+		</div>
+		<br class="clear" />
+	</div>
+{% endfor %}
+	<div class="more" style="position:absolute; bottom:15px; right: 22px; font-size: 18px;">
+		<a href="/food/spec/{{spe}}/">See More...</a>
+	</div>
+	<br class="clear" />
+</div>
+

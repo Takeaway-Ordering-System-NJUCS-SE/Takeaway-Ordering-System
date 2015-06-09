@@ -1,0 +1,34 @@
+{% extends 'home_base.html' %}
+
+{% block title %}HomePage{% endblock %}
+
+{% block style_js %}
+	<style type="text/css">
+		#top
+		{
+			position:relative;
+		}
+		#pic
+		{
+			position:absolute;
+			left:0;
+			width:150px;
+			height:150px;
+			margin:10px;
+		}
+		#namespace
+		{
+			margin-left:150px;
+			height:170px;
+		}
+	</style>
+{% endblock %}
+
+{% block content %}
+	<div id="top">
+		<div id="pic">
+		</div>
+		<div id="namespace">
+		</div>
+	</div>
+{% endblock %}

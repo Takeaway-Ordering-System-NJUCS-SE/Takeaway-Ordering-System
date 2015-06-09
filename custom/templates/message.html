@@ -1,0 +1,72 @@
+{% extends 'form_home_base.html' %}
+
+{% block title %}Personal Infomation{% endblock %}
+
+{% block style_js %}
+	<style type="text/css">
+		div.address_field{
+			padding:10px;
+			border-bottom:1px dashed grey;
+			position:relative;
+		}
+		div.address_field:hover{
+			background-color:#B0E0E6;
+			cursor:pointer;
+		}
+		div.tel{
+			padding-left:10px;
+			position:absolute;
+			left:0;
+			width:200px;
+		}
+		div.name{
+			position:absolute;
+			left:140px;
+			width:60px;
+			overflow:hidden;
+			text-overflow:ellipsis;
+		}
+		div.addr{
+			margin-left:200px;
+		}
+		div.delete{
+			display:none;
+			position:absolute;
+			right:10px;
+			top:10px;
+		}
+		h1.title{
+			border-top:1px solid grey;
+			margin-top:10px;
+			margin-bottom:20px;
+		}
+		#full_warning{
+			padding: 4px 5px 4px 25px;
+			margin: 0 0 3px 0;
+			border: 1px solid green;
+			color: white;
+			background: green url(/static/admin/img/admin/icon_alert.gif) 5px .3em no-repeat;
+		}
+	</style>
+	<script type="text/javascript" src="/static/js/address.js"></script>
+{% endblock %}
+
+{% block action %}/message/edit/{% endblock %}
+
+{% block form_up %}
+{% if not draft %}
+	<h1>Send a message</h1>
+	<p>complete next form to send a message</p>
+{% else %}
+	<h1>Edit a draft</h1>
+{% endif %}
+{% endblock %}
+
+{% block submit %}
+	{% if draft %}
+	<input type="hidden" name="draft" value="{{ draft }}" />
+	{% endif %}
+	<input type="button" value="Save as draft" />
+	<input type='submit' value='Submit' class='default' />
+{% endblock %}
+

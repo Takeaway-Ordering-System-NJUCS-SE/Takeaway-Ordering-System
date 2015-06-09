@@ -1,0 +1,104 @@
+{% extends 'home_base.html'%}
+
+
+{%block style_js %}
+<link rel="stylesheet" type="text/css" media="screen" href="/static/css/pay.css" />
+<script type="text/javascript" src="/static/js/pay.js">
+</script>
+{% endblock %}
+
+
+{% block content %}
+<form method="post" action="/order/committing/" style="position:relative"> {% csrf_token %}
+<div style="position:absolute; top: -5px; right: 80px;" >
+	<input type="submit" value="Committed" style="height:30px;width: 80px;"/>
+</div>
+<div class="cost">
+
+	<div class="cost-header">
+		<h2 class="cost">Total Cost:&nbsp;${{total}}</h2>
+		<span class="orderwrap wrap animation">Show Order</span>
+	</div>
+
+	<div class="order-list" style="display:none;">
+		{% for item in orderitem %}
+		<div class="itemp {% cycle 'row2' 'row1' %}">
+			<div class="index">{{forloop.counter}}</div>
+			<div class="foodname">Name:{{item.menu.name}}</div>
+			<div class="foodcost col">Price:{{item.menu.cost}}</div>
+			<div class="foodamount col">Amount:{{item.amount}}</div>
+			<br class="clear" />
+		</div>
+		{% endfor %}
+	</div>
+</div>
+
+
+
+<div class="address-choose">
+	<h2> Delivery Address:</h2>
+	{% if addrs %}
+	<span class="addwrap wrap animation">Optional Addresses</span>
+	{% endif %}
+	<p class="addr-table">
+		<span class="addr">Name:</span>
+		<input type="text" value="{{addrs.0.name}}" class="name" name="name"/>
+	</p>
+	<p class="addr-table">
+		<span class="addr">Tel:</span>
+		<input type="text" value="{{addrs.0.tel}}" class="tel" name="tel"/>
+	</p>
+	<p class="addr-table">
+		<span class="addr">Address:</span>
+		<input type="text" value="{{addrs.0.addr}}" class="addr" name="addr"/>
+	</p>
+	<br />
+
+
+	<div class="address-list" style="display:none;" >
+		{% if addrs %}
+		<div style="font-weight: bold; color: green; height: 18px; background: #eee; padding: 5px; " >
+			<div class="addr">Address</div>
+			<div class="tel">tel</div>
+			<div class="name">name</div>
+			<br class="clear"/>
+		</div>
+		{% endif %}
+		{% for addr in addrs %}
+		<div class="{%cycle 'row2' 'row1'%} addrs" title="Click Me to Change the Delivery Addr">
+			<div class="addr">{{addr.addr}}</div>
+			<div class="tel">{{addr.tel}}</div>
+			<div class="name">{{addr.name}}</div>
+			<br class="clear"/>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+
+<div class="pay-method" >
+	<span style="font-size: 16px; font-weight: bold; margin:1em 4px .5em 3px; padding-top: 2px;">Pay by:</span>
+	<select name="paymethod" style="height: 24px; font-size: 12px;">
+		{% for option in options %}
+			{% if not forloop.counter %}
+			<option value="{{option}}" selected="selected">
+			{% else %}
+			<option value="{{option}}" >
+			{% endif %}
+			{{option}}
+			</option>
+		{% endfor %}
+	</select>
+	<p style="margin-left: 20px; padding-top: 15px;">You have 
+	<span style="font-size: 1.3em; color: #762222; ">${{money}}</span> in your local bank</p>
+</div>
+
+<div class="extra" name="extra-info" title="something you want us to know ">
+	<h2>Extra Info</h2>
+	<textarea name="extra-info" cols="17" rows="10" style="font-size:12px;padding: px;"></textarea>
+</div>
+
+</form>
+
+
+
+{% endblock %}

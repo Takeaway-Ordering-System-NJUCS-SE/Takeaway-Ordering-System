@@ -1,0 +1,29 @@
+{% extends 'home_base.html' %}
+
+{% block content %}
+	<div id="content-main">
+		{% block before_form %} {% endblock %}
+		<form action="{% block action %}{% endblock %}" method="post" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
+			{% csrf_token %}
+			<div>
+				{% block form_up %}{% endblock %}
+				<fieldset class="module aligned wide">
+				{% for v in form %}
+					<div class="form-row">
+						{{ v.errors }}
+						<label for="{{ v.id_for_label }}" {% if v.field.required %}class="required"{% endif %}>{{ v.label }}</label>
+						{{ v }}
+					</div>
+				{% endfor %}
+				</fieldset>
+				<div class="submit-row">
+
+				{% block submit %}{% endblock %}
+
+				</div>
+			</div>
+		</form>
+		{% block after_form %}{% endblock %}
+
+	</div>
+{% endblock %}

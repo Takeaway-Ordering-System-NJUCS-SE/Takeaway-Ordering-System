@@ -1,0 +1,89 @@
+{% extends 'home_base.html' %}
+
+{% block title %}{{ user.username }}, take a look{% endblock %}
+
+{% block style_js %}
+<link rel="stylesheet" type="text/css" media="screen" href="/static/css/foods.css" />
+<script type="text/javascript" src="/static/js/infopad_init.js"></script>
+<script type="text/javascript" src="/static/js/food-order.js"></script>
+{% endblock %}
+
+
+
+{% block content %}
+<div id="selbar">
+	<div id="recblock1" class="label vis">Foods You May Like</div>
+	<div id="recblock2" class="label inv">Recommanded Jardiniere</div>
+	<br class="clear" />
+	
+</div>
+<fieldset class="recblock1 vis">
+	{% for food in foods %}
+	<div class="food {% cycle "leftcol" "rightcol" %}">
+		<div class="food-name"><a href="/food/{{ food.id }}/"><strong>{{food.name}}</strong></a></div>
+		<div class="food-price">Price: ${{food.cost}}</div>
+		<div class="food-pic">
+			{% if food.image != 'None'%}
+				<img alt="" src='/media/food/{{food.image}}' />
+			{% else %}
+				<img alt="" src='/media/food/none.jpg' />
+			{% endif %}
+		</div>
+		<div class="food-info">
+			<p class="descrip">{{food.description|truncatewords:10}}</p>
+			<div class="food-link" style="color:#222">
+				<span class="food-order" style="text-decoration:underline; cursor:pointer;">I want it</span>
+				<div class="hidden" style="display:none; ">
+					<form method='post' action='' class="order"> {% csrf_token %}
+						<strong>Amount:&nbsp;&nbsp;</strong><input class="amount" type='text' name='amount' style='text-align:right;' value='1' />
+						<input type='hidden' value='{{food.id}}' name='foodid' />
+						<input class="order" type='submit' value='Order' style='position:absolute; right:5px;' />
+					</form>
+				</div>
+				<span>&nbsp;&nbsp;</span>
+				<a href="/food/{{food.id}}/">more info</a>
+			</div>
+
+			<span class="statistic">
+				<span>Ordered Amounts:{{food.book}}&nbsp;&nbsp;</span>
+				<span>Click: {{food.click}}</span>
+			</span>
+
+			<br class="clear" />
+		</div>
+		<br class="clear" />
+	</div>
+	{% endfor %}
+</fieldset>
+
+<fieldset class="recblock2 inv">
+
+{% for order in recorders %}
+<div class="recorder" id="order{{order.id}}">
+	<div class="title" style="position: relative;">
+		<h2>{{order.extra_info}}</h2>
+		<span class="add animation">Put to Cart</span>
+	</div>
+
+	{% for food in order.orderitem_set.all %}
+	<div class="recitem {% cycle 'col1' 'col2' 'col3'%}">
+		<div class="food-pic" style="margin-left:4px;">
+			{% if food.menu.image != 'None'%}
+				<img alt="" src='/media/food/{{food.menu.image}}' />
+			{% else %}
+				<img alt="" src='/media/food/none.jpg' />
+			{% endif %}
+		</div>
+		<div style="float:left; width: 45%;">
+		<p><strong><a href="/food/{{food.menu.id}}/">{{food.menu.name}}</a></strong></p>
+		<p>Price:<em>${{food.menu.cost}}</em></p>
+		<p>Amount:<em>{{food.amount}}</em></p>
+		</div>
+	</div>
+	{% endfor %}
+	<br class="clear" />
+</div>
+{% endfor %}
+
+</fieldset>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	{% if user.is_authenticated %}
+		loged in
+	{% else %}
+		not login
+	{% endif %}
+{% endblock %}
+
+{% block extra_head %}
+	<script type="text/javascript">
+		$(document).ready(function(){
+			alert('ok');
+		});
+	</script>
+{% endblock %}
+
+{% block body %}
+	<p>You have loged in</p>	
+{% endblock %}

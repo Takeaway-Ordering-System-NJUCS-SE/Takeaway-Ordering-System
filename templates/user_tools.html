@@ -1,0 +1,24 @@
+				<script type="text/javascript" src="/static/js/account_change.js"></script>
+				{% if user.is_authenticated %}
+					<div id="user-tools">
+						Welcome,<strong>{{ user.username }}</strong>
+						<a href="/accounts/">Accounts settings</a>&nbsp;|
+						<a href="/message/">Message</a>&nbsp;|
+						<a href="/accounts/login/" id="account_change">Change an account</a>&nbsp;|
+						<a href="/accounts/logout/">Log out</a>
+					</div>
+					{% if messages %}
+					<script type="text/javascript" src="/static/js/user_message.js"></script>
+					<ul id="user_message" style="display:none">
+						{% for message in messages %}
+							<li>{{ message }}</li>
+						{% endfor %}
+					</ul>
+					{% endif %}
+				{% else %}
+					<div id="user-tools">
+						Welcome, guest. you can
+						<a href="/accounts/login/?next=/index3/"><strong>Login</strong></a>&nbsp;or&nbsp;
+						<a href="/accounts/register/"><strong>Start registration</strong></a>
+					</div>
+				{% endif %}
