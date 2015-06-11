@@ -1,0 +1,11 @@
+<form id="ajax_load_form" action="" method="post">
+{% csrf_token %}
+<table>
+{% for v in form %}
+	<tr>
+		<td>{{ v.label_tag}}</td>
+		<td>{{ v }}</td>
+	</tr>
+{% endfor %}
+</table>
+</form>

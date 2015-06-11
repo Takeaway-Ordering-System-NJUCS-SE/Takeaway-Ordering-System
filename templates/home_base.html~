@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block extra_head %}
+	<link rel="stylesheet" type="text/css" media="screen" href="/static/admin/css/changelists.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="/static/css/site.css" />
+	<script type="text/javascript" src="/static/js/jquery.infopad.js"></script>
+	{% block style_js %}
+	{% endblock %}
+{% endblock %}
+
+{% block body %}
+	<!-- Container -->
+	<div id="container">
+
+		<!-- Header -->
+		<div id="header">
+			<div id="branding">
+				<h1 id="site-name"></h1>
+				{% include 'user_tools.html' %}
+			</div>		
+		</div>
+		<!-- END Header -->
+		
+		<div id="page">
+			<div id="logo_area">
+				{% block logo_area %}
+				{% endblock %}
+				<div id='top-ad'>
+					<div><a href="/recommands/"><img alt="" src="/static/image/bf-gateway_300x75._V165198861_.png" /></a></div>
+					<div><a href="/recommands/"><img alt="" src="/static/image/4for3-roto._V154774807_.gif" /></a></div>
+					<br class="clear" />
+				</div>
+			</div>
+			<div id="display_area">
+				<!-- Content -->
+				<div id="content" class="colM">
+					{% block content %}
+					{% endblock %}
+					<br class="clear" />
+				</div>
+				<!-- END Content -->
+
+				<div id="changelist-filter">
+					<h2>Indicator</h2>
+					<ul>
+						<li><a href="/index3/">Main Page</a></li>
+						<li><a href="/current_order/">My Cart</a></li>
+						<!-- WP Current ORDERS -->
+						<li><a href="/myorder/">My Orders</a></li>
+						<li><a href="/recommands/">Recommands</a></li>
+					</ul>
+
+					<div style="height:50pt;"></div>
+
+					<h2>Others</h2>
+					<ul>
+						<li><a href="/accounts/">User/Password</a></li>
+						<li><a href="/editprofile/">Profile Update</a></li>
+						<li><a href="/local_bank/">Local Bank</a></li>
+						<li><a href="/address/">Address Book</a></li>
+					</ul>
+				</div>
+				<br class="clear" />
+			</div>
+			<div id="footer">{% include 'footer_home.html' %}</div>
+		</div>
+	</div>
+	<!-- END Container -->
+{% endblock %}
