@@ -1,6 +1,6 @@
 # Takeaway-Ordering-System
 =======
-This Project is fufilled by Ruiyi Zhang, Hongjun Ge, David Cheng,Xinchen Cai, Nanjing University, 
+This Project is fufilled by David Cheng, Ruiyi Zhang, Hongjun Ge, Xinchen Cai, Nanjing University, 
 
 This project is a course project of Software Enginerring instructed by Professor LinZhang Wang.
 Our Project mainly employed Django Framework and Python Language. 
