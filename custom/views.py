@@ -1,4 +1,4 @@
-# Create your views here.
+#coding=utf-8
 
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render_to_response, render, get_object_or_404, redirect
@@ -39,13 +39,13 @@ cash_limit 		= [50, 100, 150, 200]
 
 #invalid operation
 invalidation = [
-	("Delivery Address Must not be left Empty", '/order/comfirm/'), 
-	("We have a limit for unpaid order for at most three.", "/"),
-	("Sorry, but you have to first recharge your account, or you can choose other pay method.", "/order/comfirm/"),
-	("You cannot buy so many by cash, we have a limit for it.", "/current_order/"),
+	("订单地址不能为空", '/order/comfirm/'), 
+	("每位用户最多只可以有3个未付款的订单", "/"),
+	("抱歉，请您先对账户充值或者尝试其他支付方式", "/order/comfirm/"),
+	("您的购买已经超过了限额", "/current_order/"),
 ]
 
-paymethods = ["Unipay", "Local Bank", "Cash",]
+paymethods = ["银联支付", "支付平台", "现金支付",]
 
 ##################################tools
 def newcustomer(owner):
@@ -149,7 +149,7 @@ def personal_info(request):
 	elif request.method == 'POST':
 		form = CustomerForm(request.POST, request.FILES, instance = p)
 		if form.is_valid():
-			user.message_set.create(message='You profile have changed')
+			user.message_set.create(message='用户档案已经更新')
 			form.save()
 			if request.FILES:
 				try:
@@ -238,18 +238,18 @@ def recommands(request, ajax=False):
 			amount = int(amount)
 			menu = Menu.objects.get(id=menuid)
 		except KeyError:
-			errors.append('You should fill in a number')
+			errors.append('请添加数量')
 
 		if amount == 0:
-			errors.append('You didn\t add any food, actualy.')
+			errors.append('购物篮空空如也~')
 		elif amount < 0:
-			errors.append('Well, negative is negative.')
+			errors.append('无效的数量')
 
 		user = request.user
 		try:
 			menu = Menu.objects.get(id = menuid)
 		except Menu.DoesNotExist:
-			errors.append('Invalid POST')
+			errors.append('错误的输入')
 
 		if errors:
 			if ajax:
@@ -285,7 +285,7 @@ def recommands(request, ajax=False):
 		if ajax:
 			return httpr('0')
 
-		user.message_set.create(message='The food has been added to your order Successfully')		
+		user.message_set.create(message='食物已经成功加入到您的订单中')		
 
 		return render(request, 'recommands.html',{'foods':foods, 'recorders':recorders})
 
@@ -294,7 +294,7 @@ def recommands(request, ajax=False):
 def current_order(request):
 	user = request.user
 
-	error = 'You have not order any food yet.'
+	error = '您还没有订购任何食物。'
 	total = 0.0
 	if request.method == "GET":
 		try:
@@ -310,7 +310,7 @@ def current_order(request):
 		order = get_object_or_404(Order, user=user, state=unfinished)
 		order.delete()
 		items = []
-		error = "Your order has been deleted."
+		error = "您的订单已经被删除"
 	
 	return render(request, 'current_order.html', {'error':error, 'order':items, 'total':total})
 
@@ -318,7 +318,7 @@ def current_order(request):
 def order_update(request, id):
 
 	if request.method == 'POST':
-		return httpr('fuck you')
+		return httpr('致命错误')
 
 	elif request.method == 'GET':
 		user = request.user
@@ -327,16 +327,16 @@ def order_update(request, id):
 		try:
 			amount = int(amount)
 		except ValueError:
-			return httpr('fuck you')
+			return httpr('致命错误')
 		if (amount < 0):
-			return httpr('We cannot support such operaton for a while')
+			return httpr('尚未支持的操作。')
 
 		try:
 			menu = Menu.objects.get(id=id)
 			order = user.order_set.get(state=unfinished)
 			item = order.orderitem_set.get(menu=menu);
 		except (Menu.DoesNotExist, Order.DoesNotExist, OrderItem.DoesNotExist):
-			return httpr('shit')
+			return httpr('致命错误')
 	
 		if amount > 0:
 			item.amount = amount

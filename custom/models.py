@@ -1,8 +1,10 @@
+#coding=utf-8
+
 from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
 
-gender_choices = ((u'male', u'Male'), (u'female', u'Female'))
+gender_choices = ((u'male', u'男'), (u'female', u'女'))
 
     
 class Customer(models.Model):

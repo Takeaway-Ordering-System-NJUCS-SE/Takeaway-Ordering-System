@@ -1,10 +1,12 @@
+#coding=utf-8
+
 from django import forms
 from custom.models import *
 from django.forms.extras.widgets import SelectDateWidget
 from django.contrib.admin import widgets
 import datetime
 
-genderchoice = (('male', 'male'), ('female', 'female'),)
+genderchoice = (('male', '男'), ('female','女'),)
 image_type = ['jpg', 'jpeg', 'png', 'gif', 'tiff', ]
 
 class CustomerForm(forms.ModelForm):
@@ -25,7 +27,7 @@ class CustomerForm(forms.ModelForm):
 			s = s[-1]
 			s = s.lower()
 			if not s in image_type:
-				raise forms.ValidationError('It\'s not an image file')
+				raise forms.ValidationError('不是一个有效的图片文件')
 			image.__dict__['_name'] = str(self.instance.owner.username)+'_pic.'+s
 		except KeyError:
 			pass
@@ -51,29 +53,30 @@ class MenuForm(forms.ModelForm):
     
 import re
 class AddressForm(forms.ModelForm):
-	addr=forms.CharField(widget=forms.TextInput(attrs={'size':60}),label='Address')
+	addr=forms.CharField(widget=forms.TextInput(attrs={'size':60}),label='地址')
 	def clean_tel(self):
 		print 'clean'
 		tel=self.cleaned_data['tel']
 
 		result=re.match(r'^[+]?\d*-?\d*$',tel)
 		if not result:
-			raise forms.ValidationError('This is not a valid phone number')
+			raise forms.ValidationError('无效的电话号码')
 
 		return tel
 
 	class Meta:
 		model=Address
 		fields=('tel','name','addr')
-		#widgets={ 'addr': forms.TextInput(attrs={'size':60},label='Address')}
+		#widgets={ 'addr': forms.TextInput(attrs={'size':60},label='地址')}
 
 class ReceiverField(forms.Field):
 	def validate(self,value):
 		if User.objects.filter(username=value).count()==0:
-			raise forms.ValidationError('Invalid message receiver')
+			raise forms.ValidationError('无效的订单接收者')
 
 class MessageForm(forms.ModelForm):
-	dst=ReceiverField(label='Receiver')
+	dst = ReceiverField(label='收件人')
+	
 	class Meta:
 		model=Message
 		fields=('dst','title','content')
@@ -86,7 +89,7 @@ class AccountForm(forms.ModelForm):
 	def clean_money(self):
 		money = self.cleaned_data['money']
 		if money < 0:
-			raise forms.ValidationError('Negative is negative')
+			raise forms.ValidationError('无效的金额')
 		return money
 	class Meta:
 		model=Account

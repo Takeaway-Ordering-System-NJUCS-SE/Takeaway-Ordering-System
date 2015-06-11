@@ -1,3 +1,4 @@
+#coding=utf-8
 # Create your views here.
 
 from django.http import HttpResponse, HttpResponseRedirect,Http404
@@ -40,7 +41,7 @@ def address(request,id=None):
 				addr.id=id
 				addr.user=request.user
 				addr.save()
-				request.user.message_set.create(message='address have been updated')
+				request.user.message_set.create(message='地址信息已经更新')
 				return HttpResponseRedirect('/address/')
 		else:
 			form=AddressForm(instance=Address.objects.get(pk=id))
@@ -48,7 +49,7 @@ def address(request,id=None):
 	else:
 		if request.method=='POST':
 			if not permit:
-				request.user.message_set.create(message='Your address book is full')
+				request.user.message_set.create(message='地址簿已满')
 				form=AddressForm()
 				form.non_field_errors()
 			else:
@@ -57,7 +58,7 @@ def address(request,id=None):
 					addr=form.save(commit=False)
 					addr.user=request.user
 					addr.save()
-					request.user.message_set.create(message='new address have been saved')
+					request.user.message_set.create(message='新地址已经被保存')
 					return HttpResponseRedirect('/address/')
 		else:
 			form=AddressForm()
@@ -166,7 +167,7 @@ def message_edit(request,id=None):
 			raise Http404
 
 		if message.type==0:
-			form=MessageForm(initial={'dst':message.sender.username,'title':'Re: '+message.title})
+			form=MessageForm(initial={'dst':message.sender.username,'title':u'回复: '+message.title})
 		elif message.type==2:
 			form=MessageForm(instance=message)
 			draft=message.id

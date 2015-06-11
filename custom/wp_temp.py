@@ -1,4 +1,4 @@
-
+#coding=utf-8
 
 @login_required
 def order_committing(request):
@@ -14,7 +14,7 @@ def order_committing(request):
 			tel = request.POST.get('tel')
 			name = request.POST.get('name')
 		except KeyError:
-			user.message_set.create(message="Delivery Address Must not be left Empty")
+			user.message_set.create(message="送餐地址不能为空")
 			return HttpResponseRedirect("/pay/")
 
 		customer = get_object_or_404(Customer, owner=request.user)
@@ -41,15 +41,15 @@ def order_committing(request):
 
 			account.money -= total 
 			if (account.money < 0):
-				user.message_set.create(message="Sorry, you don't have enough money left, or you can choose other pay method.")
+				user.message_set.create(message="抱歉，账户余额不足，您可以选择其他支付方式")
 				return HttpResponseRedirect("/order/confirm/")
 			else:
 				Account.objects.filter(pk = account.id).update(money = F('money')-total)
 				order.state = paid
 				order.extra_info= request.POST.get("extra-info", "")
 				order.save()
-				user.message_set.create(message="Paid successfully.")
-				user.message_set.create(message="We will inform you foods are done")
+				user.message_set.create(message="支付成功")
+				user.message_set.create(message="我们将及时通知您食品是否做好")
 				return HttpResponseRedirect("/")
 			
 		elif paymethod == 2: #cash
