@@ -1,0 +1,31 @@
+div#navigator{
+}
+span.nav{
+	display: inline-block;
+	padding: 0 10px 0 0;
+	margin: 0;
+	font-size: 24px;
+	float: left;
+	cursor: pointer;
+}
+
+span.inv{
+	background: #7888d0;
+	border: 2px solid #DADAFF;
+	border-radius: 6px;
+}
+span.vis{
+	/*background: #aaaaFF;
+	*/
+	border: 2px solid #DADAFF;
+	border-radius: 6px;
+	background: #7CA0C7 url(/static/admin/img/admin/default-bg.gif) bottom repeat-x;
+}
+
+div.inv{
+	display: none;
+}
+div.order{
+	border: 2px solid #DADAFF;
+	border-radius: 6px;
+}
