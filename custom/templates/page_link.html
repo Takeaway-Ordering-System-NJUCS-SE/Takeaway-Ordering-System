@@ -1,11 +1,11 @@
 <div class="pages_link" style="width:100%; margin:30px;" align=center>
-	<span style="color: #000000; font-family: Courier New; font-size: 14px;">Page:&nbsp;</span>
+	<span style="color: #000000; font-family: Courier New; font-size: 14px;">页面:&nbsp;</span>
 
 	<span>
 	{% if page != 1 %}
-		<a href="{{link}}/{{page|add:'-1'}}"><button>Prev</button></a>
+		<a href="{{link}}/{{page|add:'-1'}}"><button>前一个</button></a>
 	{% else %}
-		<button class="useless" disabled="disabled">Prev</button>
+		<button class="useless" disabled="disabled">前一个</button>
 	{% endif %}
 	</span>
 
@@ -18,9 +18,9 @@
 	{% endfor %}
 	<span>
 		{% if page != pages|last %}
-			<a href="{{link}}/{{page|add:'1'}}"><button>Next</button></a>
+			<a href="{{link}}/{{page|add:'1'}}"><button>下一个</button></a>
 		{% else %}
-			<button class="useless" disabled='disabled'>Next</button>
+			<button class="useless" disabled='disabled'>下一个</button>
 		{% endif %}
 	</span>
 </div>

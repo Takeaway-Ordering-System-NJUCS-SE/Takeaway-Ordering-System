@@ -55,10 +55,10 @@
 
 {% block form_up %}
 {% if not draft %}
-	<h1>Send a message</h1>
-	<p>complete next form to send a message</p>
+	<h1>发送邮件</h1>
+	<p>请输入邮件内容</p>
 {% else %}
-	<h1>Edit a draft</h1>
+	<h1>编辑头像</h1>
 {% endif %}
 {% endblock %}
 
@@ -66,7 +66,7 @@
 	{% if draft %}
 	<input type="hidden" name="draft" value="{{ draft }}" />
 	{% endif %}
-	<input type="button" value="Save as draft" />
-	<input type='submit' value='Submit' class='default' />
+	<input type="button" value="保存头像" />
+	<input type='submit' value='提交' class='default' />
 {% endblock %}
 

@@ -2,7 +2,7 @@
 {% for food in order %}
 	<div class="food {%cycle 'leftcol' 'rightcol' %}">
 		<div class="food-name"><a href="/food/{{ food.id }}/"><strong>{{food.name}}</strong></a></div>
-		<div class="food-price">Price: ${{food.cost}}</div>
+		<div class="food-price">价格: ￥{{food.cost}}</div>
 		<div class="food-pic">
 			{% if food.image != 'None'%}
 				<img alt="" src='/media/food/{{food.image}}' />
@@ -13,25 +13,25 @@
 		<div class="food-info">
 			<p class="descrip">{{food.description|truncatewords:10}}</p>
 			<div class="food-link" style="color:#222">
-				<span class="food-order" style="text-decoration:underline; cursor:pointer;">I want it</span>
+				<span class="food-order" style="text-decoration:underline; cursor:pointer;">添加到购物篮</span>
 				<div class="hidden" style="display:none;">
                                         {% if user.is_authenticated %}
 					<form method='post' action='' class="order"> {% csrf_token %}
-						<strong>Amount:&nbsp;&nbsp;</strong><input class="amount" type='text' name='amount' style='text-align:right;' value='1'/>
+						<strong>数量:&nbsp;&nbsp;</strong><input class="amount" type='text' name='amount' style='text-align:right;' value='1'/>
 						<input type='hidden' value='{{food.id}}' name='foodid' />
 						<input class="order" type='submit' value='Order' style='position:absolute; right:5px;'/>
 					</form>
                                         {% else %}
-                                        <p style="text-align: center; padding: 0px; margin: 0px;"> please login first </p>
+                                        <p style="text-align: center; padding: 0px; margin: 0px;"> 请先登录 </p>
                                         {% endif %}
 				</div>
 				<span>&nbsp;&nbsp;</span>
-				<a href="/food/{{food.id}}/">more info</a>
+				<a href="/food/{{food.id}}/">更多</a>
 			</div>
 
 			<span class="statistic">
-				<span>Ordered Amounts:{{food.book}}&nbsp;&nbsp;</span>
-				<span>Click: {{food.click}}</span>
+				<span>订单数量:{{food.book}}&nbsp;&nbsp;</span>
+				<span>点击: {{food.click}}</span>
 			</span>
 
 			<br class="clear" />
@@ -40,7 +40,7 @@
 	</div>
 {% endfor %}
 	<div class="more" style="position:absolute; bottom:15px; right: 22px; font-size: 18px;">
-		<a href="/food/spec/{{spe}}/">See More...</a>
+		<a href="/food/spec/{{spe}}/">详情</a>
 	</div>
 	<br class="clear" />
 </div>

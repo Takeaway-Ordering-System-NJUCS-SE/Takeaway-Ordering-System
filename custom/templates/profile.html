@@ -2,12 +2,12 @@
 
 
 {% block head %}
-<div id = 'myorder_header'>Hello, {{ user.username }}</div>
+<div id = 'myorder_header'>您好, {{ user.username }}</div>
 {% endblock %}
 
 {% block content %}
 <div id = 'orders'>
-<h1>My Orders:</h1>
+<h1>我的订单:</h1>
 {% if orders %}
 	{% for order in orders %}
 		
@@ -16,14 +16,14 @@
 			
 		</div>
 		{% for item in order.orderitem_set.all %}
-		<span class='orderitem1'><strong>Food</strong>:{{item.menu.name}}</span>
-		<span class='orderitem2'><strong>Quantity</strong>:{{item.amount}}</span>
+		<span class='orderitem1'><strong>食物</strong>:{{item.menu.name}}</span>
+		<span class='orderitem2'><strong>数量</strong>:{{item.amount}}</span>
 		{% endfor %}
 		</div>
 
 	{% endfor %}
 {% else %}
-<p>No Records</p>
+<p>没有记录</p>
 {% endif %}
 </div>
 {% endblock %}

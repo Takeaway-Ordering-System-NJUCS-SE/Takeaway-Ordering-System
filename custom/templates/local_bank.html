@@ -7,16 +7,14 @@
 {% endblock %}
 
 {% block form_up %}
-<h1>Local Bank Service</h1>	
+<h1>个人账户</h1>	
 <p>
 <!--&nbsp;&nbsp;&nbsp;&nbsp;-->
-Here, you can manage a small bank in our site.
-Through it, more convenient it will be for you to get services here.
-But of course, it's not a must.
+这是您的私人银行，您可以通过这个户头获得不少便利。
 </p>
 {% endblock %}
 
 {% block submit %}
-	<p>You have {{money}} in your local bank.Now.</p>
-	<input type='submit' value='Comfirm' class='default' />
+	<p>余额: {{money}} </p>
+	<input type='submit' value='确认' class='default' />
 {% endblock %}

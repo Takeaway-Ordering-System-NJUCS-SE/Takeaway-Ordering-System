@@ -8,7 +8,7 @@
 
 {% block content %}
 <div id = 'orders' style="margin: 15px;">
-<h1>My Orders:</h1>
+<h1>我的订单:</h1>
 <div class="search">
 	<form method="post" action="">
 	</form>
@@ -20,29 +20,29 @@
 		
 		<div class='order'>
 			<div class='order_header'>
-				<span class="idinfo"><em>Order-{{order.id}}</em></span>
-				<span title="" class="add animation">Put To Cart</span>
+				<span class="idinfo"><em>订单-{{order.id}}</em></span>
+				<span title="" class="add animation">放入购物篮</span>
 				{% if order.state == 8 %}<span style="color: #996969;">(unpaid)</span>{% endif %}
 				{% if order.state == 0 %}<span style="color: #996969;">(uncommitted)</span>{% endif %}
 			</div>
-			<span class="wrap animation">Hide Detail</span>
+			<span class="wrap animation">隐藏详情</span>
 			{% for item in order.orderitem_set.all %}
 			<div class='order_item {% cycle "row2" "row1"%}'>
 			{% comment %}
 				<div class='item_pic'><img src='/media/foods/{{item.menu.img}}' /></div>
 				{% endcomment %}
 				<div class='item' >
-					<div class='orderele1 orderele'><a href="/food/{{item.menu.id}}">Food:{{item.menu.name}}</a></div>
-					<div class='orderele2 orderele'>Amount:{{item.amount}}</div>
-					<div class='orderele3 orderele'>Price:${{item.menu.cost}}/per</div>
+					<div class='orderele1 orderele'><a href="/food/{{item.menu.id}}">菜肴:{{item.menu.name}}</a></div>
+					<div class='orderele2 orderele'>数量:{{item.amount}}</div>
+					<div class='orderele3 orderele'>价格:￥{{item.menu.cost}}/份</div>
 					<br class="clear" />
 				</div>
 				<br class='clear'/>
 			</div>
 			{% endfor %}
 			<div class="order_footer">
-			<span class='order_date'>Ordering Date:&nbsp;{{ order.time|date }}</span>
-			<span>Total Cost:&nbsp;${{cost}}</span>
+			<span class='order_date'>下单时间:&nbsp;{{ order.time|date }}</span>
+			<span>总价:&nbsp;￥{{cost}}</span>
 			</div>
 		</div>
 
@@ -51,7 +51,7 @@
 		{% include 'page_link.html' with link='/myorder' %}
 	{% endif %}
 {% else %}
-<div class="norecords">No Records</div>
+<div class="norecords">没有记录</div>
 {% endif %}
 </div>
 {% endblock %}

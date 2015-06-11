@@ -15,23 +15,23 @@
 	<div class="order-table" style="margin:40px 0 0 55px; position:relative;">
 	<form method='post' action=''>{%csrf_token%}
 		<div class="order-header">
-		<h1 style="color: #111111; font-size: 22px;">{{user.username}}'s Order</h1>
-		<p class="brief"> You've ordered <span class="count">{{order.count}}</span> kinds of foods which sum up to <span class="total">{{total}}</span> dollars.</p>
+		<h1 style="color: #111111; font-size: 22px;">{{user.username}}的订单</h1>
+		<p class="brief"> 您已经成功点单 <span class="count">{{order.count}}</span> 份菜，费用总和是 <span class="total">{{total}}</span> 元.</p>
 		</div>
 		<div style="height:40px; position:relative;">
 <!--		<input type="submit" value="Pay Now" />
 -->
 		<a href="/order/comfirm">
-		<button style="position:absolute; right:48px; top:0px; height:30px; color: #226688; font-weight: bold; "><em>PAY NOW!</em></button>
+		<button style="position:absolute; right:48px; top:0px; height:30px;  ">立即付款</button>
 		</a>
 		<form action="" method="post">
-		<span style="position:absolute; right: 150px; top:0px; font-size:18px; height:30px;"><input title="Delete the whole order" class="admin-style" type="submit" value="Discard" id="discard" /></span>
+		<span style="position:absolute; right: 150px; top:0px; font-size:18px; height:30px;"><input title="Delete the whole order" class="admin-style" type="submit" value="取消订单" id="discard" /></span>
 		</form>
 		</div>
 
-		<div class="table-bar"> <div style="position:absolute; left: 72px;">Food Name</div>
-		<div style="position:absolute; right:136px;">Price</div>
-		<div style="position:absolute; right:60px;">Amount</div><br />
+		<div class="table-bar"> <div style="position:absolute; left: 72px;">菜肴名称</div>
+		<div style="position:absolute; right:136px;">价格</div>
+		<div style="position:absolute; right:60px;">份数</div><br />
 		</div>
 		{% for item in order %}
 
@@ -45,7 +45,7 @@
 			</div>
 			<div class="item-info">
 				<p class="food-name"><strong><a href="/food/{{item.menu.id}}/">{{item.menu.name}}</a></strong></p>
-				<p class="Delete" style="width:45px; color:#348956; cursor:pointer;">Delete</p>
+				<p class="Delete" style="width:45px; color:#348956; cursor:pointer;">删除</p>
 
 				<div class="money" style="position:absolute; right:-20px; bottom:5px;">
 				<span> {{item.menu.cost}}&nbsp;*&nbsp;</span>
@@ -55,7 +55,7 @@
 			<br class="clear" />
 		</div>
 		{% endfor %}
-		<div class='item-count'>Total:&nbsp;$<span class="total">{{total}}</span> </div>
+		<div class='item-count'>总共:&nbsp;￥<span class="total">{{total}}</span> </div>
 	</form>
 	</div>
 	{% endif %}

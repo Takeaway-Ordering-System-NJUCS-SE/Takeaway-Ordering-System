@@ -67,10 +67,10 @@
 	<div id="bg">
 
 		<ul class="top-nav">
-			<li><a href="/message/">Inbox</a></li>
-			<li><a href="/message/outbox/">Outbox</a></li>
-			<li><a href="/message/draft/">Draftbox</a></li>
-			<li><a href="/message/edit/">Send</a></li>
+			<li><a href="/message/">收件箱</a></li>
+			<li><a href="/message/outbox/">已发送</a></li>
+			<li><a href="/message/draft/">头像</a></li>
+			<li><a href="/message/edit/">发送邮件</a></li>
 		</ul>
 
 		<div class="page-nav">
@@ -136,13 +136,13 @@
 					{{ item.content|truncatewords:20 }}
 				</p>
 				<div class="delete">
-					<a href="/message/del/{{ item.id }}/">Delete</a>
+					<a href="/message/del/{{ item.id }}/">删除</a>
 				</div>
 			</div>
 		</div>
 		{% empty %}
 		<div>
-			You have no messages in this box
+			你的邮箱里空空如也
 		</div>
 		{% endfor %}
 	</div>

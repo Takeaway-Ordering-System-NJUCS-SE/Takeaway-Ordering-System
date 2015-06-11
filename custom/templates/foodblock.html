@@ -1,7 +1,7 @@
 {% for food in foods %}
 	<div class="food {%cycle 'leftcol' 'rightcol' %}">
 		<div class="food-name"><a href="/food/{{ food.id }}/"><strong>{{food.name}}</strong></a></div>
-		<div class="food-price">Price: ${{food.cost}}</div>
+		<div class="food-price">价格: ￥{{food.cost}}</div>
 		<div class="food-pic">
 			{% if food.image != 'None'%}
 				<img src='/media/food/{{food.image}}' />
@@ -16,21 +16,21 @@
 				<div class="hidden" style="display:none;">
                                 {% if user.is_authenticated %} 
 					<form method='post' action='' class="order"> {% csrf_token %}
-						<strong>Amount:&nbsp;&nbsp;</strong><input class="amount" type='text' name='amount' style='text-align:right;' value='1'/>
+						<strong>数量:&nbsp;&nbsp;</strong><input class="amount" type='text' name='amount' style='text-align:right;' value='1'/>
 						<input type='hidden' value='{{food.id}}' name='foodid' />
-						<input class="order" type='submit' value='Order' style='position:absolute; right:5px;'/>
+						<input class="order" type='submit' value='订单' style='position:absolute; right:5px;'/>
 					</form>
                                 {% else %}
-                                        <p>please login first.</p>
+                                        <p>请先登录.</p>
                                 {% endif %}
 				</div>
 				<span>&nbsp;&nbsp;</span>
-				<a href="/food/{{food.id}}/">more info</a>
+				<a href="/food/{{food.id}}/">更多</a>
 			</div>
 
 			<span class="statistic">
-				<span>Ordered Amounts:{{food.book}}&nbsp;&nbsp;</span>
-				<span>Click: {{food.click}}</span>
+				<span>点单数量:{{food.book}}&nbsp;&nbsp;</span>
+				<span>点击: {{food.click}}</span>
 			</span>
 
 			<br class="clear" />

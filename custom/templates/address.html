@@ -57,10 +57,10 @@
 
 {% block after_form %}
 	{% if item %}
-		<h1 class="title">Your address book</h1>
+		<h1 class="title">您的送餐簿</h1>
 
 		{% if not permit %}
-			<p id="full_warning">Your address book is full, you can not add new address to it</p>
+			<p id="full_warning">您的送餐簿已经满了，无法再加入新的地址</p>
 		{% endif %}
 
 		{% for i in item %}
@@ -78,21 +78,21 @@
 			</div>
 		{% endfor %}
 	{% else %}
-		<p> You have no address in your address book</p>
+		<p> 您的送餐簿里空空如也</p>
 	{% endif %}
 {% endblock %}
 
 {% block form_up %}
 {% if not id %}
-	<h1>Manage your address</h1>
-	<p>complete next form to add an new address to your address book</p>
+	<h1>管理送餐地址</h1>
+	<p>完成下列表格可添加一个送餐地址</p>
 {% else %}
-	<h1>Edit your address</h1>
-	<p>complete next form to add the selected address.</p>
+	<h1>修改您的地址</h1>
+	<p>完成下列表格可添加一个可选地址.</p>
 {% endif %}
 {% endblock %}
 
 {% block submit %}
-	<input type='submit' value='Submit' class='default' />
+	<input type='submit' value='提交' class='default' />
 {% endblock %}
 

@@ -16,17 +16,17 @@
 <div class="cost">
 
 	<div class="cost-header">
-		<h2 class="cost">Total Cost:&nbsp;${{total}}</h2>
-		<span class="orderwrap wrap animation">Show Order</span>
+		<h2 class="cost">总价:&nbsp;￥{{total}}</h2>
+		<span class="orderwrap wrap animation">订单</span>
 	</div>
 
 	<div class="order-list" style="display:none;">
 		{% for item in orderitem %}
 		<div class="itemp {% cycle 'row2' 'row1' %}">
 			<div class="index">{{forloop.counter}}</div>
-			<div class="foodname">Name:{{item.menu.name}}</div>
-			<div class="foodcost col">Price:{{item.menu.cost}}</div>
-			<div class="foodamount col">Amount:{{item.amount}}</div>
+			<div class="foodname">名称:{{item.menu.name}}</div>
+			<div class="foodcost col">价格:{{item.menu.cost}}</div>
+			<div class="foodamount col">数量:{{item.amount}}</div>
 			<br class="clear" />
 		</div>
 		{% endfor %}
@@ -38,18 +38,18 @@
 <div class="address-choose">
 	<h2> Delivery Address:</h2>
 	{% if addrs %}
-	<span class="addwrap wrap animation">Optional Addresses</span>
+	<span class="addwrap wrap animation">可选送餐地址</span>
 	{% endif %}
 	<p class="addr-table">
-		<span class="addr">Name:</span>
+		<span class="addr">姓名:</span>
 		<input type="text" value="{{addrs.0.name}}" class="name" name="name"/>
 	</p>
 	<p class="addr-table">
-		<span class="addr">Tel:</span>
+		<span class="addr">电话:</span>
 		<input type="text" value="{{addrs.0.tel}}" class="tel" name="tel"/>
 	</p>
 	<p class="addr-table">
-		<span class="addr">Address:</span>
+		<span class="addr">地址:</span>
 		<input type="text" value="{{addrs.0.addr}}" class="addr" name="addr"/>
 	</p>
 	<br />
@@ -58,9 +58,9 @@
 	<div class="address-list" style="display:none;" >
 		{% if addrs %}
 		<div style="font-weight: bold; color: green; height: 18px; background: #eee; padding: 5px; " >
-			<div class="addr">Address</div>
-			<div class="tel">tel</div>
-			<div class="name">name</div>
+			<div class="addr">地址</div>
+			<div class="tel">电话</div>
+			<div class="name">姓名</div>
 			<br class="clear"/>
 		</div>
 		{% endif %}
@@ -88,12 +88,12 @@
 			</option>
 		{% endfor %}
 	</select>
-	<p style="margin-left: 20px; padding-top: 15px;">You have 
-	<span style="font-size: 1.3em; color: #762222; ">${{money}}</span> in your local bank</p>
+	<p style="margin-left: 20px; padding-top: 15px;">你的账户里有 
+	<span style="font-size: 1.3em; color: #762222; ">￥{{money}}</span></p>
 </div>
 
 <div class="extra" name="extra-info" title="something you want us to know ">
-	<h2>Extra Info</h2>
+	<h2>其他信息</h2>
 	<textarea name="extra-info" cols="17" rows="10" style="font-size:12px;padding: px;"></textarea>
 </div>
 
