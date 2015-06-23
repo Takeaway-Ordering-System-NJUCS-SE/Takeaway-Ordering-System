@@ -1,0 +1,247 @@
+body{
+	font-family:"Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,'Microsoft Yahei',sans-serif,Tahoma,'Simsun';
+}
+#page{
+	margin:0 auto;
+	width:900px;
+	border:1px solid #DDD;
+}
+
+#header{
+	height:38px;
+	z-index:100;
+	background:#115055;
+}
+
+#content{
+	width:84%;
+	margin:0;
+	padding-left:5px;
+	float:left;
+	position: relative;
+}
+#changelist-filter{
+	min-height:600px;
+	height:100%;
+	margin:0;
+	z-index:0;
+	width: 15%;
+	border-left: 1px solid #ddd;
+/*	background: #efefef;*/
+	margin: 0;
+	float:right;
+	position: static;
+	background:-webkit-gradient(linear, 0 0, 0 bottom, from(#efefef), to(#ffffff));
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#efefef', endColorstr='#ffffff');
+	background:-moz-linear-gradient(top, #efefef, #ffffff);
+	
+}
+#user_pic{
+	hieght:100px;
+	width:100px;
+	margin:10px 0 10px 450px;
+	overflow:hidden;
+	border-radius:6px;
+}
+div.form-row img{
+	height:100px;
+	width:100px;
+	border-radius:6px;
+}
+#display_area{
+	position:relative;
+}
+#logo_area{
+	height:100px;
+	position:relative;
+}
+
+#changelist-filter h2{
+	margin:0;
+	padding: 5px 5px 5px 5px;
+	font-size: 16px;
+	text-align: left;
+	font-weight: bold;
+	/*background: #7CA0C7 url(../img/admin/default-bg.gif) top left repeat-x;*/
+	background:-webkit-gradient(linear, 0 0, 0 bottom, from(#326342), to(#327345));
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#628793', endColorstr='#205450');
+	background:-moz-linear-gradient(top, #628793, #205450);
+	color: white;
+}
+#user_pic{
+	hieght:100px;
+	width:100px;
+	margin:10px 0 10px 450px;
+	overflow:hidden;
+	border-radius:6px;
+}
+div.form-row img{
+	height:100px;
+	width:100px;
+	border-radius:6px;
+}
+#changelist-filter h3{
+	font-size: 12px;
+	margin-bottom: 0;
+	margin-top: .6em;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+#content-main{
+	padding-top:5px;
+}
+
+.highlightBlue{
+	background-color:#DEEEFC;
+	color:#3E5E8E;
+}
+.highlightDark{
+	background-color:#F5FAFE;
+	color:#3E5E8E;
+}
+
+.animation{
+	cursor: pointer;
+	text-decoration: underline;
+}
+img{
+	border-radius: 8px;
+}
+textarea{
+	padding: 2px 4px;
+}
+input,textarea
+{
+	font: 12px/1.5 Tahoma,'Microsoft Yahei','Simsun';
+	color: #444;
+}
+input[type=text],input[type=password]{
+	padding: 2px 4px;
+	line-height: 17px;
+	height:17px;
+	background:white url(/static/image/common/px.png) repeat-x 0 0;
+	border: 1px solid;
+	border-color:#848484 #E0E0E0 #E0E0E0 #848484 !important;
+}
+textarea{
+	padding: 2px 4px;
+	border: 1px solid;
+	border-color:#999 #CCC #CCC #999;
+}
+button.useless{
+	color: #888888;
+}
+span.page{
+	display: inline-block;
+	width:20px;
+}
+input:focus{
+	outline: none;
+}
+textarea:focus{
+	outline: none;
+}
+ul.page-nav{
+	margin-left: 0;
+	float:right;
+}
+ul.page-nav li{
+	display: inline;
+	float: left;
+	height: 25px;
+	margin-right: 3px;
+	line-height: 25px;
+	color: #AAA;
+	list-style: none;
+}
+ul.page-nav a{
+	display: block;
+	min-width: 15px;
+	height: 23px;
+	padding: 0 5px;
+	line-height: 23px;
+	text-align: center;
+	white-space: nowrap;
+	background: white;
+	border: 1px solid #CCC;
+	color: #06C;
+	text-decoration: none;
+}
+ul.page-nav li.curr-page a{
+	font-weight: bold;
+	background-color: #FFEEE5;
+	border-color: #F50;
+	color: red;
+}
+
+#changelist-filter ul{
+	margin-top: 6px;
+	padding-top: 4px;
+}
+
+#changelist-filter li{
+	font-size: 12px;
+	margin: 8px 0 4px 0px;
+	color: #666;
+	font-weight: bold;
+}
+#footer{
+	margin-bottom:0px;
+	padding:0;
+	margin-top:40px;
+}
+#foot-container ul{
+	margin-left:-40px;
+}
+#foot-container ul li{
+	list-style-type:none;
+	margin-top:12px;
+}
+#foot-container{
+	position:relative;
+}
+#foot-left{
+	position:absolute;
+	top:0;
+	left:10px;
+	height:131px;
+	width:350px;
+}
+#foot-right{
+	position:absolute;
+	top:0;
+	right:10px;
+	height:131px;
+	width:350px;
+}
+#foot-left div{
+	float:left;
+	width:150px;
+	margin-left:20px;
+}
+#foot-right div{
+	float:right;
+	width:150px;
+	margin-right:0px;
+}
+#footer div p{
+	text-align:center;
+}
+p.bottom{
+	margin:0;
+	border:1px solid grey;
+	padding:3px;
+	background-color:#808A87;
+	color:seaShell;
+	text-align:right;
+}
+
+#top-ad{
+	position:absolute;
+	top:10px;
+	right:10px;
+}
+#top-ad div{
+	float:left;
+}
