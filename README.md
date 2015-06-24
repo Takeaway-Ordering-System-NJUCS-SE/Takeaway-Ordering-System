@@ -7,4 +7,4 @@ Our Project mainly employed Django Framework and Python Language.
 
 The Target of our project is to implement a good Ordering System.
   
-  © 2014-2015 All Rights reserved.
+© 2014-2015 All Rights reserved.
